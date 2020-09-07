@@ -1,0 +1,5 @@
+This instruction for PyCharm IDE.
+Create new configuration in project. Add this to Parameters "runserver 0.0.0.0:80"(without quotes).
+In very bottom in section Before launch add new external tool. This external tool needs for starting all needed servers.
+In Program type "$ProjectFileDir$\RestartServers.bat"(without quotes)
+In Working directory type "$ProjectFileDir$"(without quotes)
