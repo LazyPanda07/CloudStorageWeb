@@ -1,8 +1,8 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 from NetworkPackage.Network import Network
 from NetworkPackage.HTTPBuilder import HTTPBuilder
 from NetworkPackage.Constants import *
 
 
 def index(request):
-    return HttpResponse()
+    return render(request, "index.html")
