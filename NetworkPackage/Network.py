@@ -1,6 +1,7 @@
 import socket
 from NetworkPackage.Constants import CLIENT_TIMEOUT_RECEIVE
 from NetworkPackage.Constants import HTTP_PACKET_SIZE
+from NetworkPackage.HTTPParser import HTTPParser
 
 
 class Network:
@@ -29,6 +30,28 @@ class Network:
 
     def receive(self):
         data = self._socket.recv(HTTP_PACKET_SIZE)
+
+        size = 0
+        last_packet = len(data)
+        total_receive = 0
+
+        while True:
+            if last_packet == 0:
+                raise RuntimeError("socket connection broken")
+
+            total_receive += last_packet
+
+            if total_receive > 25 and size == 0:
+                parser = HTTPParser(data)
+
+                size = int(parser.get_header("Total-HTTP-Message-Size"))
+
+            if size == total_receive:
+                break
+
+            data += self._socket.recv(size - total_receive)
+
+            last_packet = len(data) - last_packet
 
         return str(data.decode(encoding="CP1251"))
 
