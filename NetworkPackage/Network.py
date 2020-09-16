@@ -53,7 +53,7 @@ class Network:
 
             last_packet = len(data) - last_packet
 
-        return str(data.decode(encoding="CP1251"))
+        return data
 
     def __del__(self):
         self._socket.close()

@@ -47,7 +47,7 @@ class HTTPBuilder:
 
         return self
 
-    def set_headers(self, name, value):
+    def set_header(self, name, value):
         if isinstance(name, Enum):
             self._headers += name.value + ": "
         else:
