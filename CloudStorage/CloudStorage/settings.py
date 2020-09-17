@@ -116,4 +116,5 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "shared_static",
+    BASE_DIR / "static"
     ]
