@@ -13,9 +13,16 @@ def index(request: HttpRequest):
 
 def authorization(request: HttpRequest):
     if request.method == "POST":
+        if "login" in request.session and "password" in request.session \
+                and request.session["login"] == request.POST["login"] and request.session["password"] == request.POST["password"]:
+            return HttpResponse("Авторизация прошла успешно")
+
         is_authorized, error_message = Authorization.authorization(request.POST["login"], request.POST["password"])
 
         if is_authorized:
+            request.session["login"] = request.POST["login"]
+            request.session["password"] = request.POST["password"]
+
             return HttpResponse("Авторизация прошла успешно")
         else:
             return HttpResponse(error_message)

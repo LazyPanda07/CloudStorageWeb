@@ -18,7 +18,7 @@
         document.getElementById("DragAndDrop").addEventListener("dragover", (event) => {
             event.stopPropagation();
             event.preventDefault();
-            
+
             event.dataTransfer.dropEffect = 'copy';
         });
 
