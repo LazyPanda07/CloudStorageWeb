@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.http import HttpRequest
 import NetworkPackage.NetworkFunctions.Authorization as Authorization
 import NetworkPackage.NetworkFunctions.Registration as Registration
+import NetworkPackage.NetworkFunctions.UploadFile as UploadFile
 
 
 def index(request: HttpRequest):
@@ -28,6 +29,18 @@ def registration(request: HttpRequest):
 
         if is_registered:
             return HttpResponse("Регистрация прошла успешно")
+        else:
+            return HttpResponse(error_message)
+
+    return redirect(index)
+
+
+def upload_file(request: HttpRequest):
+    if request.method == "POST":
+        is_file_uploaded, error_message = UploadFile.upload_file(request.headers["File-Name"], request.body)
+
+        if is_file_uploaded:
+            return HttpResponse("Файл успешно загружен")
         else:
             return HttpResponse(error_message)
 

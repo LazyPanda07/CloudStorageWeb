@@ -156,3 +156,6 @@ fabric.properties
 # databases
 *.sqlite*
 *.db
+
+# Users data
+Data/

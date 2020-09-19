@@ -49,5 +49,35 @@ function registration(/** string */ login, /** string */ password)
                 alert(data)
             }
         }
-    )
+    );
+}
+
+function uploadFile(/** File */ file)
+{
+    let reader = new FileReader();
+
+    reader.readAsArrayBuffer(file);
+
+    reader.addEventListener("load", (event) =>
+    {
+        let data = new Uint8Array(event.target.result);
+        let binaryString = "";
+
+        for (const i of data) {
+            binaryString += String.fromCharCode(i);
+        }
+
+        $.post(
+            {
+                url: "/uploadFile",
+                dataType: "text",
+                headers: { "File-Name": file.name },
+                data: binaryString,
+                success: function (data)
+                {
+                    alert(data);
+                }
+            }
+        );
+    });
 }
