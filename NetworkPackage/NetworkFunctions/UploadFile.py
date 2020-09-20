@@ -20,7 +20,7 @@ def upload_file(file_name: str, file_data: bytes):
 
             is_last = True
 
-        message = HTTPBuilder(). \
+        message = HTTPBuilder().set_method("POST"). \
             set_header(RequestType.FILES_TYPE, FilesRequests.UPLOAD_FILE). \
             set_header("File-Name", file_name). \
             set_header("Range", offset). \

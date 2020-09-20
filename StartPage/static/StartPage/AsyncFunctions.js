@@ -24,7 +24,7 @@ $.ajaxSetup({
 
 function authorization(/** string */ login, /** string */ password)
 {
-    $.post(
+    return $.post(
         {
             url: "/authorization",
             dataType: "text",
@@ -39,7 +39,7 @@ function authorization(/** string */ login, /** string */ password)
 
 function registration(/** string */ login, /** string */ password)
 {
-    $.post(
+    return $.post(
         {
             url: "/registration",
             dataType: "text",
@@ -67,7 +67,7 @@ function uploadFile(/** File */ file)
             binaryString += String.fromCharCode(i);
         }
 
-        $.post(
+        return $.post(
             {
                 url: "/uploadFile",
                 dataType: "text",
@@ -80,4 +80,18 @@ function uploadFile(/** File */ file)
             }
         );
     });
+}
+
+function setPath()
+{
+    return $.post(
+        {
+            url: "/setPath",
+            dataType: "text",
+            success: function (data)
+            {
+                alert(data);
+            }
+        }
+    );
 }

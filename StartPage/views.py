@@ -2,9 +2,11 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.http import HttpRequest
+from pathlib import Path
 import NetworkPackage.NetworkFunctions.Authorization as Authorization
 import NetworkPackage.NetworkFunctions.Registration as Registration
 import NetworkPackage.NetworkFunctions.UploadFile as UploadFile
+import NetworkPackage.NetworkFunctions.SetPath as SetPath
 
 
 def index(request: HttpRequest):
@@ -15,6 +17,8 @@ def authorization(request: HttpRequest):
     if request.method == "POST":
         if "login" in request.session and "password" in request.session \
                 and request.session["login"] == request.POST["login"] and request.session["password"] == request.POST["password"]:
+            request.session["path"] = Path("Home").__str__()
+
             return HttpResponse("Авторизация прошла успешно")
 
         is_authorized, error_message = Authorization.authorization(request.POST["login"], request.POST["password"])
@@ -22,6 +26,7 @@ def authorization(request: HttpRequest):
         if is_authorized:
             request.session["login"] = request.POST["login"]
             request.session["password"] = request.POST["password"]
+            request.session["path"] = Path("Home").__str__()
 
             return HttpResponse("Авторизация прошла успешно")
         else:
@@ -50,5 +55,17 @@ def upload_file(request: HttpRequest):
             return HttpResponse("Файл успешно загружен")
         else:
             return HttpResponse(error_message)
+
+    return redirect(index)
+
+
+def set_path(request: HttpRequest):
+    if request.method == "POST":
+        response = SetPath.set_path(request.session["login"], request.session["password"], request.session["path"])
+
+        if response is None:
+            return HttpResponse("Не удалось установить путь")
+        else:
+            return HttpResponse("Успех")
 
     return redirect(index)
