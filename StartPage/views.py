@@ -50,7 +50,9 @@ def registration(request: HttpRequest):
 
 def upload_file(request: HttpRequest):
     if request.method == "POST":
-        is_file_uploaded, error_message = UploadFile.upload_file(request.session["login"], request.session["password"], request.headers["File-Name"], request.body)
+        is_file_uploaded, error_message = UploadFile.upload_file(
+            request.session["login"], request.session["password"], request.headers["File-Name"], UploadFile.from_hex(request.body.decode("ASCII")), request.session["path"]
+            )
 
         if is_file_uploaded:
             return HttpResponse("Файл успешно загружен")

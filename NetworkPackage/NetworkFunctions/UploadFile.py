@@ -1,16 +1,24 @@
 from NetworkPackage.Network import Network
 from NetworkPackage.HTTPParser import HTTPParser
 from NetworkPackage.HTTPBuilder import HTTPBuilder
-from NetworkPackage.NetworkFunctions.Authorization import authorization
+from NetworkPackage.NetworkFunctions.SetPath import set_path
 
 from NetworkPackage.Constants import *
 
 
-def upload_file(login: str, password: str, file_name: str, file_data: bytes):
-    network = Network("31.207.166.231", 8500)
-    is_authorized, error_message = authorization(login, password, network)
+def from_hex(data: str):
+    result = []
 
-    if is_authorized:
+    for i in range(0, len(data), 2):
+        result.append(bytes.fromhex(data[i:i + 2]))
+
+    return b''.join(result)
+
+
+def upload_file(login: str, password: str, file_name: str, file_data: bytes, path: str):
+    network = Network("31.207.166.231", 8500)
+
+    if set_path(login, password, path, network).get_body() == b"OK":
         offset = 0
         file_data_size = len(file_data)
         data = bytes()
@@ -45,4 +53,4 @@ def upload_file(login: str, password: str, file_name: str, file_data: bytes):
 
         return response.get_header("Error") == "0", response.get_body().decode("CP1251")
 
-    return False, error_message
+    return False, "Не удалось загрузить файл"

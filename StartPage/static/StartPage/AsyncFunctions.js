@@ -22,6 +22,17 @@ $.ajaxSetup({
     }
 });
 
+function toHex(/** uint8 */ byte)
+{
+    result = byte.toString(16)
+
+    if (result.length == 1) {
+        result = "0" + result;
+    }
+
+    return result;
+}
+
 function authorization(/** string */ login, /** string */ password)
 {
     return $.post(
@@ -64,14 +75,13 @@ function uploadFile(/** File */ file)
         let binaryString = "";
 
         for (const i of data) {
-            binaryString += String.fromCharCode(i);
+            binaryString += toHex(i);
         }
 
         return $.post(
             {
                 url: "/uploadFile",
-                dataType: "text",
-                headers: { "File-Name": file.name, "Content-Type": "application/octet-stream" },
+                headers: { "File-Name": file.name },
                 data: binaryString,
                 success: function (data)
                 {
