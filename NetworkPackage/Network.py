@@ -9,8 +9,6 @@ from struct import pack
 
 
 class Network:
-    _socket = None
-
     def __init__(self, ip: str, port: int):
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
 
@@ -68,3 +66,9 @@ class Network:
         self._socket.send(end_of_socket_stream.encode("ASCII"))
 
         self._socket.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
