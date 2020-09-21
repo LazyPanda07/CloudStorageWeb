@@ -16,7 +16,7 @@ def registration(login: str, password: str):
 
     request = HTTPBuilder.insert_size_header_to_http_message(request)
 
-    network.send(request)
+    network.send(request.encode("ASCII"))
 
     response = HTTPParser(network.receive())
 

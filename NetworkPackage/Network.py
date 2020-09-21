@@ -1,7 +1,11 @@
 import socket
 from NetworkPackage.Constants import CLIENT_TIMEOUT_RECEIVE
 from NetworkPackage.Constants import HTTP_PACKET_SIZE
+from NetworkPackage.Constants import RequestType
+from NetworkPackage.Constants import NetworkRequests
 from NetworkPackage.HTTPParser import HTTPParser
+from NetworkPackage.HTTPBuilder import HTTPBuilder
+from struct import pack
 
 
 class Network:
@@ -14,8 +18,7 @@ class Network:
 
         self._socket.connect((ip, port))
 
-    def send(self, message: str):
-        data = message.encode(encoding="CP1251")
+    def send(self, data: bytes):
         total_sent = 0
 
         while total_sent < len(data):
@@ -56,4 +59,12 @@ class Network:
         return data
 
     def __del__(self):
+        end_of_socket_stream = HTTPBuilder().set_method("POST"). \
+            set_header(RequestType.EXIT_TYPE, NetworkRequests.EXIT). \
+            build()
+
+        self._socket.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, pack("ii", 1, 0))
+
+        self._socket.send(end_of_socket_stream.encode("ASCII"))
+
         self._socket.close()

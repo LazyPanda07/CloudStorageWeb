@@ -71,7 +71,7 @@ function uploadFile(/** File */ file)
             {
                 url: "/uploadFile",
                 dataType: "text",
-                headers: { "File-Name": file.name },
+                headers: { "File-Name": file.name, "Content-Type": "application/octet-stream" },
                 data: binaryString,
                 success: function (data)
                 {
@@ -94,4 +94,18 @@ function setPath()
             }
         }
     );
+}
+
+function getFiles()
+{
+    return $.post(
+        {
+            url: "/getFiles",
+            dataType: "text",
+            success: function (data)
+            {
+                alert(data);
+            }
+        }
+    )
 }

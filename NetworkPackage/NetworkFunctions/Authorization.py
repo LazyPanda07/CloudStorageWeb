@@ -5,7 +5,7 @@ from NetworkPackage.HTTPBuilder import HTTPBuilder
 from NetworkPackage.Constants import *
 
 
-def authorization(login: str, password: str, network=None):
+def authorization(login: str, password: str, network: Network = None):
     if network is None:
         network = Network("31.207.166.231", 8500)
     body = "login={}&password={}".format(login, password)
@@ -17,7 +17,7 @@ def authorization(login: str, password: str, network=None):
 
     request = HTTPBuilder.insert_size_header_to_http_message(request)
 
-    network.send(request)
+    network.send(request.encode("ASCII"))
 
     response = HTTPParser(network.receive())
 

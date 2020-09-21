@@ -7,6 +7,7 @@ import NetworkPackage.NetworkFunctions.Authorization as Authorization
 import NetworkPackage.NetworkFunctions.Registration as Registration
 import NetworkPackage.NetworkFunctions.UploadFile as UploadFile
 import NetworkPackage.NetworkFunctions.SetPath as SetPath
+import NetworkPackage.NetworkFunctions.GetFiles as GetFiles
 
 
 def index(request: HttpRequest):
@@ -49,7 +50,7 @@ def registration(request: HttpRequest):
 
 def upload_file(request: HttpRequest):
     if request.method == "POST":
-        is_file_uploaded, error_message = UploadFile.upload_file(request.headers["File-Name"], request.body)
+        is_file_uploaded, error_message = UploadFile.upload_file(request.session["login"], request.session["password"], request.headers["File-Name"], request.body)
 
         if is_file_uploaded:
             return HttpResponse("Файл успешно загружен")
@@ -65,6 +66,21 @@ def set_path(request: HttpRequest):
 
         if response is None:
             return HttpResponse("Не удалось установить путь")
+        else:
+            # response contains list of FileData
+            return HttpResponse("Успех")
+
+    return redirect(index)
+
+
+def get_files(request: HttpRequest):
+    if request.method == "POST":
+        response = GetFiles.get_files(request.session["login"], request.session["password"], request.session["path"])
+
+        if response is None:
+            return HttpResponse("Не удалось получить список файлов")
+        elif type(response) == str:
+            return HttpResponse(response)
         else:
             return HttpResponse("Успех")
 

@@ -6,8 +6,9 @@ from NetworkPackage.NetworkFunctions.Authorization import authorization
 from NetworkPackage.Constants import *
 
 
-def set_path(login: str, password: str, path: str):
-    network = Network("31.207.166.231", 8500)
+def set_path(login: str, password: str, path: str, network: Network = None):
+    if network is None:
+        network = Network("31.207.166.231", 8500)
     response = None
     is_authorized, error_message = authorization(login, password, network)
 
@@ -21,7 +22,7 @@ def set_path(login: str, password: str, path: str):
 
         request = HTTPBuilder.insert_size_header_to_http_message(request)
 
-        network.send(request)
+        network.send(request.encode("CP1251"))
 
         response = HTTPParser(network.receive())
 
