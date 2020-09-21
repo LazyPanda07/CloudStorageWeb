@@ -9,7 +9,7 @@ from FileData.FileData import FileData
 
 
 def get_files(login: str, password: str, path: str):
-    with Network("31.207.166.231", 8500) as network:
+    with Network(APIServerIp, APIServerPort) as network:
         data = None
         is_path_set = set_path(login, password, path, network)
         if is_path_set is not None and is_path_set.get_body() == b"OK":

@@ -10,7 +10,7 @@ def set_path(login: str, password: str, path: str, network: Network = None):
     is_network_not_passed = network is None
 
     if is_network_not_passed:
-        network = Network("31.207.166.231", 8500)
+        network = Network(APIServerIp, APIServerPort)
     response = None
     is_authorized, error_message = authorization(login, password, network)
 

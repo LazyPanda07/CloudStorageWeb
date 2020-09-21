@@ -6,7 +6,7 @@ from NetworkPackage.Constants import *
 
 
 def registration(login: str, password: str):
-    with Network("31.207.166.231", 8500) as network:
+    with Network(APIServerIp, APIServerPort) as network:
         body = "login={}&password={}".format(login, password)
 
         request = HTTPBuilder().set_method("POST"). \

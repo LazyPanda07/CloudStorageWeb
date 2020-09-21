@@ -9,7 +9,7 @@ def authorization(login: str, password: str, network: Network = None):
     is_network_not_passed = network is None
 
     if is_network_not_passed:
-        network = Network("31.207.166.231", 8500)
+        network = Network(APIServerIp, APIServerPort)
     body = "login={}&password={}".format(login, password)
 
     request = HTTPBuilder().set_method("POST"). \
