@@ -3,7 +3,11 @@ from NetworkPackage.HTTPParser import HTTPParser
 from NetworkPackage.HTTPBuilder import HTTPBuilder
 from NetworkPackage.NetworkFunctions.SetPath import set_path
 
-from NetworkPackage.Constants import *
+from NetworkPackage.Constants import APIServerIp
+from NetworkPackage.Constants import APIServerPort
+from NetworkPackage.Constants import FILE_PACKET_SIZE
+from NetworkPackage.Constants import RequestType
+from NetworkPackage.Constants import FilesRequests
 
 
 def from_hex(data: str):

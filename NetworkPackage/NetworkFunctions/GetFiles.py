@@ -3,7 +3,12 @@ from NetworkPackage.HTTPParser import HTTPParser
 from NetworkPackage.HTTPBuilder import HTTPBuilder
 from NetworkPackage.NetworkFunctions.SetPath import set_path
 
-from NetworkPackage.Constants import *
+from NetworkPackage.Constants import APIServerIp
+from NetworkPackage.Constants import APIServerPort
+from NetworkPackage.Constants import DATA_PART_DELIMITER
+from NetworkPackage.Constants import DATA_DELIMITER
+from NetworkPackage.Constants import RequestType
+from NetworkPackage.Constants import FilesRequests
 
 from FileData.FileData import FileData
 

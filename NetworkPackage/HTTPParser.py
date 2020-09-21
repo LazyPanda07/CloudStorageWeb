@@ -1,5 +1,4 @@
 class HTTPParser:
-
     def __init__(self, data: bytes):
         self._headers = dict()
         self._method = str()

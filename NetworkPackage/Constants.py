@@ -1,16 +1,15 @@
 from enum import Enum
-from json import load
 from pathlib import Path
-
-Path().absolute()
+import json
 
 GET_FILE = 1
 
 APIServerIp = ""
 APIServerPort = -1
 
+# settings.json must be in NetworkPackage
 with open(Path(__file__).parent.absolute().joinpath("settings.json"), "r") as settings_file:
-    settings = load(settings_file)
+    settings = json.load(settings_file)
     APIServerIp, APIServerPort = settings["APIServerIp"], settings["APIServerPort"]
 
 HTTP_PACKET_SIZE = 4096

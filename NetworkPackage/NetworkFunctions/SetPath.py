@@ -3,7 +3,10 @@ from NetworkPackage.HTTPParser import HTTPParser
 from NetworkPackage.HTTPBuilder import HTTPBuilder
 from NetworkPackage.NetworkFunctions.Authorization import authorization
 
-from NetworkPackage.Constants import *
+from NetworkPackage.Constants import APIServerIp
+from NetworkPackage.Constants import APIServerPort
+from NetworkPackage.Constants import RequestType
+from NetworkPackage.Constants import ControlRequests
 
 
 def set_path(login: str, password: str, path: str, network: Network = None):
