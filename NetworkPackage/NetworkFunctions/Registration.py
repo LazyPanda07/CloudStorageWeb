@@ -20,4 +20,6 @@ def registration(login: str, password: str):
 
     response = HTTPParser(network.receive())
 
+    network.close()
+
     return response.get_header("Error") == "0", response.get_body().decode("CP1251")

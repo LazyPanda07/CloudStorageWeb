@@ -7,7 +7,9 @@ from NetworkPackage.Constants import *
 
 
 def set_path(login: str, password: str, path: str, network: Network = None):
-    if network is None:
+    is_network_not_passed = network is None
+
+    if is_network_not_passed:
         network = Network("31.207.166.231", 8500)
     response = None
     is_authorized, error_message = authorization(login, password, network)
@@ -25,5 +27,8 @@ def set_path(login: str, password: str, path: str, network: Network = None):
         network.send(request.encode("CP1251"))
 
         response = HTTPParser(network.receive())
+
+    if is_network_not_passed:
+        network.close()
 
     return response

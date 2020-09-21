@@ -23,6 +23,7 @@ def get_files(login: str, password: str, path: str):
         response = HTTPParser(network.receive())
 
         if response.get_header("Error") == "1":
+            network.close()
             return response.get_body().decode("CP1251")
 
         body = response.get_body().decode("CP1251")
@@ -41,5 +42,7 @@ def get_files(login: str, password: str, path: str):
                 cur_index += 1
             else:
                 tem[cur_index].append(i)
+
+    network.close()
 
     return data

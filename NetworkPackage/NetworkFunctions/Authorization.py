@@ -6,7 +6,9 @@ from NetworkPackage.Constants import *
 
 
 def authorization(login: str, password: str, network: Network = None):
-    if network is None:
+    is_network_not_passed = network is None
+
+    if is_network_not_passed:
         network = Network("31.207.166.231", 8500)
     body = "login={}&password={}".format(login, password)
 
@@ -20,5 +22,8 @@ def authorization(login: str, password: str, network: Network = None):
     network.send(request.encode("ASCII"))
 
     response = HTTPParser(network.receive())
+
+    if is_network_not_passed:
+        network.close()
 
     return response.get_header("Error") == "0", response.get_body().decode("CP1251")

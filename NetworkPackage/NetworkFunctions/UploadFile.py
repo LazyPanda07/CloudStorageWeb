@@ -51,6 +51,10 @@ def upload_file(login: str, password: str, file_name: str, file_data: bytes, pat
 
         response = HTTPParser(network.receive())
 
+        network.close()
+
         return response.get_header("Error") == "0", response.get_body().decode("CP1251")
+
+    network.close()
 
     return False, "Не удалось загрузить файл"

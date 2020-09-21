@@ -21,11 +21,6 @@ class HTTPBuilder:
 
         return http_message[:find_rn + 2] + total_http_message_size + http_message[find_rn + 2:]
 
-    _method = None
-    _parameters = None
-    _responseCode = None
-    _headers = None
-
     def __init__(self):
         self._method = str()
         self._parameters = str()

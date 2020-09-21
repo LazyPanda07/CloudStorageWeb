@@ -1,8 +1,4 @@
 class HTTPParser:
-    _message = None
-    _headers = None
-    _parameters = None
-    _body = None
 
     def __init__(self, data: bytes):
         self._headers = dict()

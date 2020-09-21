@@ -58,7 +58,7 @@ class Network:
 
         return data
 
-    def __del__(self):
+    def close(self):
         end_of_socket_stream = HTTPBuilder().set_method("POST"). \
             set_header(RequestType.EXIT_TYPE, NetworkRequests.EXIT). \
             build()
