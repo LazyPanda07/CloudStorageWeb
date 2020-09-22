@@ -11,6 +11,7 @@ import NetworkPackage.NetworkFunctions.GetFiles as GetFiles
 import NetworkPackage.NetworkFunctions.RemoveFile as RemoveFiles
 import NetworkPackage.NetworkFunctions.NextFolder as NextFolder
 import NetworkPackage.NetworkFunctions.PrevFolder as PrevFolder
+import NetworkPackage.NetworkFunctions.DownloadFile as DownloadFile
 
 
 def index(request: HttpRequest):
@@ -113,5 +114,27 @@ def prev_folder(request: HttpRequest):
         request.session["path"] = str(PrevFolder.prev_folder(Path(request.session["path"])))
 
         return HttpResponse(request.session["path"])
+
+    return redirect(index)
+
+
+def download_file(request: HttpRequest):
+    if request.method == "GET":
+        response = HttpResponse(
+            DownloadFile.download_file(request.session["login"], request.session["password"], request.session["File-Name"], request.session["path"]),
+            content_type="application/octet-stream"
+            )
+
+        response["Content-Disposition"] = "inline; filename=" + request.session["File-Name"]
+
+        return response
+
+    return redirect(index)
+
+
+def set_file_name(request: HttpRequest):
+    if request.method == "POST":
+        request.session["File-Name"] = request.headers["File-Name"]
+        return HttpResponse("Успех")
 
     return redirect(index)

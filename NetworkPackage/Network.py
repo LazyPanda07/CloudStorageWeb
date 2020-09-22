@@ -34,23 +34,20 @@ class Network:
 
         size = 0
         last_packet = len(data)
-        total_receive = 0
 
         while True:
             if last_packet == 0:
                 raise RuntimeError("socket connection broken")
 
-            total_receive += last_packet
-
-            if total_receive > 25 and size == 0:
+            if len(data) > 25 and size == 0:
                 parser = HTTPParser(data)
 
                 size = int(parser.get_header("Total-HTTP-Message-Size"))
 
-            if size == total_receive:
+            if size == len(data):
                 break
 
-            data += self._socket.recv(size - total_receive)
+            data += self._socket.recv(size - len(data))
 
             last_packet = len(data) - last_packet
 

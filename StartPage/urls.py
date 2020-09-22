@@ -12,4 +12,6 @@ urlpatterns = [
     path("removeFile", views.remove_file, name="remove_file"),
     path("nextFolder", views.next_folder, name="next_folder"),
     path("prevFolder", views.prev_folder, name="prev_folder"),
+    path("downloadFile", views.download_file, name="download_file"),
+    path("setFileName", views.set_file_name, name="set_file_name"),
     ]

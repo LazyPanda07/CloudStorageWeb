@@ -117,7 +117,7 @@ function getFiles()
                 alert(data);
             }
         }
-    )
+    );
 }
 
 function removeFile(/** String */ fileName)
@@ -132,7 +132,7 @@ function removeFile(/** String */ fileName)
                 alert(data);
             }
         }
-    )
+    );
 }
 
 function nextFolder(/** String */ folderName)
@@ -147,7 +147,7 @@ function nextFolder(/** String */ folderName)
                 alert(data);
             }
         }
-    )
+    );
 }
 
 function prevFolder()
@@ -161,5 +161,23 @@ function prevFolder()
                 alert(data);
             }
         }
-    )
+    );
+}
+
+function downloadFile(/** String */ fileName)
+{
+    $.post(
+        {
+            url: "/setFileName",
+            dataType: "text",
+            headers: { "File-Name": fileName },
+            success: function (data)
+            {
+                console.log(data);
+            }
+        }
+    ).then(() =>
+    {
+        window.location = "/downloadFile";
+    });
 }
