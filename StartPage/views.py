@@ -9,6 +9,8 @@ import NetworkPackage.NetworkFunctions.UploadFile as UploadFile
 import NetworkPackage.NetworkFunctions.SetPath as SetPath
 import NetworkPackage.NetworkFunctions.GetFiles as GetFiles
 import NetworkPackage.NetworkFunctions.RemoveFile as RemoveFiles
+import NetworkPackage.NetworkFunctions.NextFolder as NextFolder
+import NetworkPackage.NetworkFunctions.PrevFolder as PrevFolder
 
 
 def index(request: HttpRequest):
@@ -93,5 +95,23 @@ def get_files(request: HttpRequest):
 def remove_file(request: HttpRequest):
     if request.method == "POST":
         return HttpResponse(RemoveFiles.remove_file(request.session["login"], request.session["password"], request.session["path"], request.headers["File-Name"]))
+
+    return redirect(index)
+
+
+def next_folder(request: HttpRequest):
+    if request.method == "POST":
+        request.session["path"] = str(NextFolder.next_folder(request.headers["Folder-Name"], Path(request.session["path"])))
+
+        return HttpResponse(request.session["path"])
+
+    return redirect(index)
+
+
+def prev_folder(request: HttpRequest):
+    if request.method == "POST":
+        request.session["path"] = str(PrevFolder.prev_folder(Path(request.session["path"])))
+
+        return HttpResponse(request.session["path"])
 
     return redirect(index)

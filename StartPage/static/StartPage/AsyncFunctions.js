@@ -134,3 +134,32 @@ function removeFile(/** String */ fileName)
         }
     )
 }
+
+function nextFolder(/** String */ folderName)
+{
+    return $.post(
+        {
+            url: "/nextFolder",
+            headers: { "Folder-Name": folderName },
+            dataType: "text",
+            success: function (data)
+            {
+                alert(data);
+            }
+        }
+    )
+}
+
+function prevFolder()
+{
+    return $.post(
+        {
+            url: "/prevFolder",
+            dataType: "text",
+            success: function (data)
+            {
+                alert(data);
+            }
+        }
+    )
+}
