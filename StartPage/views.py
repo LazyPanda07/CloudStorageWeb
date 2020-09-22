@@ -12,6 +12,7 @@ import NetworkPackage.NetworkFunctions.RemoveFile as RemoveFiles
 import NetworkPackage.NetworkFunctions.NextFolder as NextFolder
 import NetworkPackage.NetworkFunctions.PrevFolder as PrevFolder
 import NetworkPackage.NetworkFunctions.DownloadFile as DownloadFile
+import NetworkPackage.NetworkFunctions.CreateFolder as CreateFolder
 
 
 def index(request: HttpRequest):
@@ -128,6 +129,13 @@ def download_file(request: HttpRequest):
         response["Content-Disposition"] = "inline; filename=" + request.session["File-Name"]
 
         return response
+
+    return redirect(index)
+
+
+def create_folder(request: HttpRequest):
+    if request.method == "POST":
+        return HttpResponse(CreateFolder.create_folder(request.session["login"], request.session["password"], request.headers["Folder-Name"], request.session["path"]))
 
     return redirect(index)
 

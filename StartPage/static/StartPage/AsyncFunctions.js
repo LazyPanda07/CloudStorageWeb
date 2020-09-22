@@ -181,3 +181,18 @@ function downloadFile(/** String */ fileName)
         window.location = "/downloadFile";
     });
 }
+
+function createFolder(/** String */ folderName)
+{
+    $.post(
+        {
+            url: "/createFolder",
+            dataType: "text",
+            headers: { "Folder-Name": folderName },
+            success: function (data)
+            {
+                console.log(data);
+            }
+        }
+    )
+}
