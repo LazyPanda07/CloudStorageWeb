@@ -22,6 +22,7 @@ def from_hex(data: str):
 def upload_file(login: str, password: str, file_name: str, file_data: bytes, path: str):
     with Network(APIServerIp, APIServerPort) as network:
         is_path_set = set_path(login, password, path, network)
+
         if is_path_set is not None and is_path_set.get_body() == b"OK":
             offset = 0
             file_data_size = len(file_data)

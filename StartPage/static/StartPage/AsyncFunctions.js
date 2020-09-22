@@ -119,3 +119,18 @@ function getFiles()
         }
     )
 }
+
+function removeFile(/** String */ fileName)
+{
+    return $.post(
+        {
+            url: "/removeFile",
+            headers: { "File-Name": fileName },
+            dataType: "text",
+            success: function (data)
+            {
+                alert(data);
+            }
+        }
+    )
+}

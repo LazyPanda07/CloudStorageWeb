@@ -8,6 +8,7 @@ import NetworkPackage.NetworkFunctions.Registration as Registration
 import NetworkPackage.NetworkFunctions.UploadFile as UploadFile
 import NetworkPackage.NetworkFunctions.SetPath as SetPath
 import NetworkPackage.NetworkFunctions.GetFiles as GetFiles
+import NetworkPackage.NetworkFunctions.RemoveFile as RemoveFiles
 
 
 def index(request: HttpRequest):
@@ -85,5 +86,12 @@ def get_files(request: HttpRequest):
             return HttpResponse(response)
         else:
             return HttpResponse("Успех")
+
+    return redirect(index)
+
+
+def remove_file(request: HttpRequest):
+    if request.method == "POST":
+        return HttpResponse(RemoveFiles.remove_file(request.session["login"], request.session["password"], request.session["path"], request.headers["File-Name"]))
 
     return redirect(index)

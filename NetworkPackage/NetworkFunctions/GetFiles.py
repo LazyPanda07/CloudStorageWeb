@@ -17,6 +17,7 @@ def get_files(login: str, password: str, path: str):
     with Network(APIServerIp, APIServerPort) as network:
         data = None
         is_path_set = set_path(login, password, path, network)
+
         if is_path_set is not None and is_path_set.get_body() == b"OK":
             request = HTTPBuilder().set_method("POST"). \
                 set_header(RequestType.FILES_TYPE, FilesRequests.SHOW_ALL_FILES_IN_DIRECTORY). \
