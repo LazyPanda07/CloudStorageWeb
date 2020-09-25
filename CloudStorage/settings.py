@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "StartPage.apps.StartpageConfig",
+    "Storage.apps.StorageConfig",
     ]
 
 MIDDLEWARE = [
