@@ -196,3 +196,58 @@ function createFolder(/** String */ folderName)
         }
     )
 }
+
+/*
+let listItem = document.querySelector('.listing__item'),
+    popupItem = document.querySelector('.popup-file'),
+    contentArea = document.getElementById('content-area')
+
+
+listItem.addEventListener('click',
+    function () {
+    popupItem.style.display = "flex";
+    this.style.border = "2px solid #0071F5";
+    this.style.borderRadius = "10px"
+});*/
+
+
+
+let regBtn = document.querySelector('.header__reg-btn');
+let authBtn = document.querySelector('.body__auth-btn');
+let regBtnClose = document.querySelector('.reg-popup__close');
+let authBtnClose = document.querySelector('.auth-popup__close');
+let regPopup = document.querySelector('.reg-popup');
+let authPopup = document.querySelector('.auth-popup');
+
+regBtn.addEventListener('click', function ()
+{
+    regPopup.style.display = "block";
+    authPopup.style.display = "none";
+});
+
+regBtnClose.addEventListener('click', function ()
+{
+    regPopup.style.display = "none";
+});
+
+authBtn.addEventListener('click', function ()
+{
+    authPopup.style.display = "block";
+    regPopup.style.display = "none";
+});
+
+authBtnClose.addEventListener('click', function ()
+{
+    authPopup.style.display = "none";
+});
+
+$("#logIn").click(function ()
+{
+    let login = $("#authorizationLogin");
+    let password = $("#authorizationPassword");
+
+    console.log(login.val());
+    console.log(password.val());
+
+    authorization(login.val(), password.val());
+});
