@@ -35,7 +35,7 @@ def upload_file(request: HttpRequest):
         else:
             return HttpResponse(error_message)
 
-    return redirect(index)
+    return render(request, "storage.html")
 
 
 def set_path(request: HttpRequest):
@@ -48,7 +48,7 @@ def set_path(request: HttpRequest):
             # response contains list of FileData
             return HttpResponse(Responses.OK_RESPONSE.value)
 
-    return redirect(index)
+    return render(request, "storage.html")
 
 
 def get_files(request: HttpRequest):
@@ -62,14 +62,14 @@ def get_files(request: HttpRequest):
         else:
             return HttpResponse(Responses.OK_RESPONSE.value)
 
-    return redirect(index)
+    return render(request, "storage.html")
 
 
 def remove_file(request: HttpRequest):
     if request.method == "POST":
         return HttpResponse(RemoveFiles.remove_file(request.session["login"], request.session["password"], request.session["path"], request.headers["File-Name"]))
 
-    return redirect(index)
+    return render(request, "storage.html")
 
 
 def next_folder(request: HttpRequest):
@@ -78,7 +78,7 @@ def next_folder(request: HttpRequest):
 
         return HttpResponse(request.session["path"])
 
-    return redirect(index)
+    return render(request, "storage.html")
 
 
 def prev_folder(request: HttpRequest):
@@ -87,7 +87,7 @@ def prev_folder(request: HttpRequest):
 
         return HttpResponse(request.session["path"])
 
-    return redirect(index)
+    return render(request, "storage.html")
 
 
 def download_file(request: HttpRequest):
@@ -101,14 +101,14 @@ def download_file(request: HttpRequest):
 
         return response
 
-    return redirect(index)
+    return render(request, "storage.html")
 
 
 def create_folder(request: HttpRequest):
     if request.method == "POST":
         return HttpResponse(CreateFolder.create_folder(request.session["login"], request.session["password"], request.headers["Folder-Name"], request.session["path"]))
 
-    return redirect(index)
+    return render(request, "storage.html")
 
 
 def set_file_name(request: HttpRequest):
@@ -116,4 +116,4 @@ def set_file_name(request: HttpRequest):
         request.session["File-Name"] = request.headers["File-Name"]
         return HttpResponse(Responses.OK_RESPONSE.value)
 
-    return redirect(index)
+    return render(request, "storage.html")

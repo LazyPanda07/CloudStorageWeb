@@ -200,27 +200,35 @@ let authBtnClose = document.querySelector('.auth-popup__close');
 let regPopup = document.querySelector('.reg-popup');
 let authPopup = document.querySelector('.auth-popup');
 
-regBtn.addEventListener("click", function ()
-{
-    regPopup.style.display = "block";
-    authPopup.style.display = "none";
-});
+if (regBtn) {
+    regBtn.addEventListener("click", function ()
+    {
+        regPopup.style.display = "block";
+        authPopup.style.display = "none";
+    });
+}
 
-regBtnClose.addEventListener("click", function ()
-{
-    regPopup.style.display = "none";
-});
+if (regBtnClose) {
+    regBtnClose.addEventListener("click", function ()
+    {
+        regPopup.style.display = "none";
+    });
+}
 
-authBtn.addEventListener("click", function ()
-{
-    authPopup.style.display = "block";
-    regPopup.style.display = "none";
-});
+if (authBtn) {
+    authBtn.addEventListener("click", function ()
+    {
+        authPopup.style.display = "block";
+        regPopup.style.display = "none";
+    });
+}
 
-authBtnClose.addEventListener("click", function ()
-{
-    authPopup.style.display = "none";
-});
+if (authBtnClose) {
+    authBtnClose.addEventListener("click", function ()
+    {
+        authPopup.style.display = "none";
+    });
+}
 
 $("#logIn").click(function ()
 {
