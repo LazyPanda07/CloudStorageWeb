@@ -5,9 +5,6 @@ from django.shortcuts import redirect
 from django.http import HttpRequest
 from django.http import HttpResponse
 
-from StartPage.views import index as start_page_index
-from StartPage.views import authorization
-
 from NetworkPackage.Constants import Responses
 
 import NetworkPackage.NetworkFunctions.UploadFile as UploadFile
@@ -21,13 +18,10 @@ import NetworkPackage.NetworkFunctions.CreateFolder as CreateFolder
 
 
 def index(request: HttpRequest):
-    if "login" in request.session and "password" in request.session:
-        if authorization(request) != Responses.OK_RESPONSE:
-            return redirect(start_page_index)
-    else:
-        return redirect(start_page_index)
+    if "login" not in request.session and "password" not in request.session:
+        return redirect("..")
 
-    return render(request, "index.html")
+    return render(request, "storage.html")
 
 
 def upload_file(request: HttpRequest):
@@ -37,7 +31,7 @@ def upload_file(request: HttpRequest):
             )
 
         if is_file_uploaded:
-            return HttpResponse(Responses.OK_RESPONSE)
+            return HttpResponse(Responses.OK_RESPONSE.value)
         else:
             return HttpResponse(error_message)
 
@@ -49,10 +43,10 @@ def set_path(request: HttpRequest):
         response = SetPath.set_path(request.session["login"], request.session["password"], request.session["path"])
 
         if response is None:
-            return HttpResponse(Responses.FAIL_RESPONSE)
+            return HttpResponse(Responses.FAIL_RESPONSE.value)
         else:
             # response contains list of FileData
-            return HttpResponse(Responses.OK_RESPONSE)
+            return HttpResponse(Responses.OK_RESPONSE.value)
 
     return redirect(index)
 
@@ -62,11 +56,11 @@ def get_files(request: HttpRequest):
         response = GetFiles.get_files(request.session["login"], request.session["password"], request.session["path"])
 
         if response is None:
-            return HttpResponse(Responses.FAIL_RESPONSE)
+            return HttpResponse(Responses.FAIL_RESPONSE.value)
         elif type(response) == str:
             return HttpResponse(response)
         else:
-            return HttpResponse(Responses.OK_RESPONSE)
+            return HttpResponse(Responses.OK_RESPONSE.value)
 
     return redirect(index)
 
@@ -120,6 +114,6 @@ def create_folder(request: HttpRequest):
 def set_file_name(request: HttpRequest):
     if request.method == "POST":
         request.session["File-Name"] = request.headers["File-Name"]
-        return HttpResponse(Responses.OK_RESPONSE)
+        return HttpResponse(Responses.OK_RESPONSE.value)
 
     return redirect(index)

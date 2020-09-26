@@ -1,24 +1,7 @@
 $.ajaxSetup({
     beforeSend: function (xhr, settings)
     {
-        function getCookie(name)
-        {
-            var cookieValue = null;
-            if (document.cookie && document.cookie != '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-            xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
-        }
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
     }
 });
 
@@ -42,7 +25,7 @@ function authorization(/** string */ login, /** string */ password)
             data: "login=" + login + "&password=" + password,
             success: function (data)
             {
-                alert(data)
+                return data;
             }
         }
     );
@@ -210,8 +193,6 @@ listItem.addEventListener('click',
     this.style.borderRadius = "10px"
 });*/
 
-
-
 let regBtn = document.querySelector('.header__reg-btn');
 let authBtn = document.querySelector('.body__auth-btn');
 let regBtnClose = document.querySelector('.reg-popup__close');
@@ -219,35 +200,39 @@ let authBtnClose = document.querySelector('.auth-popup__close');
 let regPopup = document.querySelector('.reg-popup');
 let authPopup = document.querySelector('.auth-popup');
 
-regBtn.addEventListener('click', function ()
+regBtn.addEventListener("click", function ()
 {
     regPopup.style.display = "block";
     authPopup.style.display = "none";
 });
 
-regBtnClose.addEventListener('click', function ()
+regBtnClose.addEventListener("click", function ()
 {
     regPopup.style.display = "none";
 });
 
-authBtn.addEventListener('click', function ()
+authBtn.addEventListener("click", function ()
 {
     authPopup.style.display = "block";
     regPopup.style.display = "none";
 });
 
-authBtnClose.addEventListener('click', function ()
+authBtnClose.addEventListener("click", function ()
 {
     authPopup.style.display = "none";
 });
 
 $("#logIn").click(function ()
 {
-    let login = $("#authorizationLogin");
-    let password = $("#authorizationPassword");
+    authorization($("#authorizationLogin").val(), $("#authorizationPassword").val()).then(function (data)
+    {
+        if (data == "OK") {
+            authPopup.style.display = "none";
 
-    console.log(login.val());
-    console.log(password.val());
-
-    authorization(login.val(), password.val());
+            window.location.href = "/storage";
+        }
+        else {
+            alert(data);
+        }
+    });
 });
