@@ -40,7 +40,7 @@ function registration(/** string */ login, /** string */ password)
             data: "login=" + login + "&password=" + password,
             success: function (data)
             {
-                alert(data)
+                return data;
             }
         }
     );
@@ -260,4 +260,24 @@ $("#logIn").click(function ()
             alert(data);
         }
     });
+});
+
+$("#register").click(function ()
+{
+    let password = $("#registrationPassword").val();
+    let repeatPassword = $("#registrationRepeatPassword").val();
+
+    if (password == repeatPassword) {
+        registration($("#registrationLogin").val(), password).then(function (data)
+        {
+            if (data == "OK") {
+                alert("Регистрация прошла успешно");
+
+                regPopup.style.display = "none";
+            }
+            else {
+                alert(data);
+            }
+        });
+    }
 });
