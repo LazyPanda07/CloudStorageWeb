@@ -6,6 +6,8 @@ from django.http import HttpRequest
 from django.http import HttpResponse
 
 from NetworkPackage.Constants import Responses
+from NetworkPackage.Constants import DATA_DELIMITER
+from NetworkPackage.Constants import DATA_PART_DELIMITER
 
 import NetworkPackage.NetworkFunctions.UploadFile as UploadFile
 import NetworkPackage.NetworkFunctions.SetPath as SetPath
@@ -45,7 +47,6 @@ def set_path(request: HttpRequest):
         if response is None:
             return HttpResponse(Responses.FAIL_RESPONSE.value)
         else:
-            # response contains list of FileData
             return HttpResponse(Responses.OK_RESPONSE.value)
 
     return redirect(index)
@@ -60,7 +61,11 @@ def get_files(request: HttpRequest):
         elif type(response) == str:
             return HttpResponse(response)
         else:
-            return HttpResponse(Responses.OK_RESPONSE.value)
+            files = []
+            for i in response:
+                files.append(i.file_name + DATA_PART_DELIMITER + i.file_extension)
+
+            return HttpResponse("{}".format(DATA_DELIMITER).join(files))
 
     return redirect(index)
 

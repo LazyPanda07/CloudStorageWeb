@@ -93,11 +93,11 @@ function getFiles()
 {
     return $.post(
         {
-            url: "/getFiles",
+            url: "getFiles",
             dataType: "text",
             success: function (data)
             {
-                alert(data);
+                return data;
             }
         }
     );
@@ -197,6 +197,24 @@ function logOut()
     return true;
 }
 
+function createFolderElement(/** String */ folderName)
+{
+    return String.raw
+        `<div class="listing__item">
+            <img src="/static/img/icons/folder.svg" alt="">
+            <span>${folderName}</span>
+        </div>`;
+}
+
+function createFileElement(/** String */ fileName)
+{
+    return String.raw
+        `<div class="listing__item">
+            <img src="/static/img/icons/file.svg" alt="">
+            <span>${fileName}</span>
+        </div>`;
+}
+
 /*
 let listItem = document.querySelector('.listing__item'),
     popupItem = document.querySelector('.popup-file'),
@@ -247,9 +265,9 @@ if (authBtnClose) {
     });
 }
 
-$("#logIn").click(function ()
+$("#log-in").click(function ()
 {
-    authorization($("#authorizationLogin").val(), $("#authorizationPassword").val()).then(function (data)
+    authorization($("#authorization-login").val(), $("#authorization-password").val()).then(function (data)
     {
         if (data == "OK") {
             authPopup.style.display = "none";
@@ -264,11 +282,11 @@ $("#logIn").click(function ()
 
 $("#register").click(function ()
 {
-    let password = $("#registrationPassword").val();
-    let repeatPassword = $("#registrationRepeatPassword").val();
+    let password = $("#registration-password").val();
+    let repeatPassword = $("#registration-repeat-password").val();
 
     if (password == repeatPassword) {
-        registration($("#registrationLogin").val(), password).then(function (data)
+        registration($("#registration-login").val(), password).then(function (data)
         {
             if (data == "OK") {
                 alert("Регистрация прошла успешно");
@@ -280,4 +298,24 @@ $("#register").click(function ()
             }
         });
     }
+});
+
+$(document).ready(function ()
+{
+    getFiles().then(function (data)
+    {
+        let allFiles = $("#all-files");
+        let fileNames = data.split('/');
+
+        for (const i of fileNames) {
+            tem = i.split('|');
+
+            if (tem[1] == "Папка с файлами") {
+                allFiles.append(createFolderElement(tem[0]));
+            }
+            else {
+                allFiles.append(createFileElement(tem[0]));
+            }
+        }
+    });
 });
