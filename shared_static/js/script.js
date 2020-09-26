@@ -180,6 +180,23 @@ function createFolder(/** String */ folderName)
     )
 }
 
+function logOut()
+{
+    $.post(
+        {
+            url: "logOut",
+            dataType: "text",
+            async: false,
+            success: function (data)
+            {
+                return data
+            }
+        }
+    );
+
+    return true;
+}
+
 /*
 let listItem = document.querySelector('.listing__item'),
     popupItem = document.querySelector('.popup-file'),

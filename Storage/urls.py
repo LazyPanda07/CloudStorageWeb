@@ -13,4 +13,5 @@ urlpatterns = [
     path("downloadFile", views.download_file, name="download_file"),
     path("setFileName", views.set_file_name, name="set_file_name"),
     path("createFolder", views.create_folder, name="create_folder"),
+    path("logOut", views.log_out, name="log_out"),
     ]
