@@ -63,7 +63,7 @@ function uploadFile(/** File */ file)
 
         return $.post(
             {
-                url: "/uploadFile",
+                url: "uploadFile",
                 headers: { "File-Name": file.name },
                 data: binaryString,
                 success: function (data)
@@ -304,6 +304,11 @@ $(document).ready(function ()
 {
     getFiles().then(function (data)
     {
+        if(data == "Эта папка пуста")
+        {
+            return;
+        }
+
         let allFiles = $("#all-files");
         let fileNames = data.split('/');
 
@@ -318,4 +323,27 @@ $(document).ready(function ()
             }
         }
     });
+});
+
+document.getElementById("all-files").addEventListener("dragover", (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    event.dataTransfer.dropEffect = 'copy';
+});
+
+document.getElementById("all-files").addEventListener("drop", (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    console.log("WTF?");
+
+    const files = event.dataTransfer.files;
+
+    for (const file of files)
+    {
+        uploadFile(file);
+    }
+
+    window.location.href = "/storage";
 });
