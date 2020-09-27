@@ -189,9 +189,9 @@ function downloadFile(/** String */ fileName)
 
 function createFolder(/** String */ folderName)
 {
-    $.post(
+    return $.post(
         {
-            url: "/createFolder",
+            url: "createFolder",
             dataType: "text",
             headers: { "Folder-Name": folderName },
             success: function (data)
@@ -329,6 +329,13 @@ $("#register").click(function ()
             }
         });
     }
+});
+
+$("#create-folder").click(function ()
+{
+    let folderName = prompt("Введите название новой папки");
+
+    createFolder(folderName).then(() => window.location.href = "/storage");
 });
 
 $(document).ready(function ()
