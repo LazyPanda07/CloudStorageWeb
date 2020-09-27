@@ -46,33 +46,55 @@ function registration(/** string */ login, /** string */ password)
     );
 }
 
-function uploadFile(/** File */ file)
-{
-    let reader = new FileReader();
+var filesToUpload;
 
-    reader.readAsArrayBuffer(file);
+function uploadFiles(/** File[] */ files, /** int */ currentIndex)
+{
+    if (files.length == currentIndex) {
+        window.location.href = "/storage";
+        return;
+    }
+
+    let reader = new FileReader();
 
     reader.addEventListener("load", (event) =>
     {
         let data = new Uint8Array(event.target.result);
         let binaryString = "";
+        fileName = files[currentIndex].name;
 
         for (const i of data) {
             binaryString += toHex(i);
         }
 
-        return $.post(
+        for (const i of fileName) {
+            if (i.charCodeAt(0) > 255) {
+                alert("Невозможно отправить файл с таким названием");
+                uploadFiles(files, currentIndex + 1);
+                return;
+            }
+        }
+
+        $.post(
             {
                 url: "uploadFile",
-                headers: { "File-Name": file.name },
+                headers: { "File-Name": fileName },
                 data: binaryString,
                 success: function (data)
                 {
-                    alert(data);
+                    return data;
                 }
             }
-        );
+        ).then((result) =>
+        {
+            uploadFiles(files, currentIndex + 1);
+        }).catch((err) =>
+        {
+            console.log(err);
+        });
     });
+
+    reader.readAsArrayBuffer(files[currentIndex]);
 }
 
 function setPath()
@@ -197,6 +219,14 @@ function logOut()
     return true;
 }
 
+function takeFilesFromInput()
+{
+    filesToUpload = this.files;
+    uploadButton.disabled = true;
+
+    uploadFiles(filesToUpload, 0);
+}
+
 function createFolderElement(/** String */ folderName)
 {
     return String.raw
@@ -234,6 +264,7 @@ let regBtnClose = document.querySelector('.reg-popup__close');
 let authBtnClose = document.querySelector('.auth-popup__close');
 let regPopup = document.querySelector('.reg-popup');
 let authPopup = document.querySelector('.auth-popup');
+let uploadButton = document.getElementById("upload-file");
 
 if (regBtn) {
     regBtn.addEventListener("click", function ()
@@ -304,8 +335,7 @@ $(document).ready(function ()
 {
     getFiles().then(function (data)
     {
-        if(data == "Эта папка пуста")
-        {
+        if (data == "Эта папка пуста") {
             return;
         }
 
@@ -325,25 +355,26 @@ $(document).ready(function ()
     });
 });
 
-document.getElementById("all-files").addEventListener("dragover", (event) => {
+document.getElementById("all-files").addEventListener("dragover", (event) =>
+{
     event.stopPropagation();
     event.preventDefault();
 
     event.dataTransfer.dropEffect = 'copy';
 });
 
-document.getElementById("all-files").addEventListener("drop", (event) => {
+document.getElementById("all-files").addEventListener("drop", (event) =>
+{
     event.stopPropagation();
     event.preventDefault();
 
-    console.log("WTF?");
+    // const files = event.dataTransfer.files;
 
-    const files = event.dataTransfer.files;
-
-    for (const file of files)
-    {
-        uploadFile(file);
-    }
+    uploadFiles(event.dataTransfer.files, 0);
 
     window.location.href = "/storage";
 });
+
+if (uploadButton) {
+    uploadButton.addEventListener("change", takeFilesFromInput, false);
+}
