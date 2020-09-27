@@ -69,11 +69,6 @@ class HTTPBuilder:
             result = self._method + " " + self._parameters + " " + self._http_version + "\r\n" + self._headers
 
         if len(body) != 0:
-            tem = []
-
-            for i in body:
-                tem.append(chr(i))
-
-            result = result + "\r\n" + ''.join(tem)
+            result = result + "\r\n" + body.decode("CP1251")
 
         return result

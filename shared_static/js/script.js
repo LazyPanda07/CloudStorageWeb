@@ -5,12 +5,35 @@ $.ajaxSetup({
     }
 });
 
-function toHex(/** uint8 */ byte)
+function fromBinaryToHex(/** uint8 */ byte)
 {
     result = byte.toString(16)
 
     if (result.length == 1) {
         result = "0" + result;
+    }
+
+    return result;
+}
+
+function fromStringToHex(/** String */ string)
+{
+    let result = new String();
+
+    for (const i of string) {
+        tem = (i.charCodeAt(0)).toString(16);
+
+        if (tem.length != 3) {
+            newString = new String();
+
+            for (let i = 0; i < 3 - tem.length; i++) {
+                newString += "0";
+            }
+
+            tem = newString + tem;
+        }
+
+        result += tem;
     }
 
     return result;
@@ -64,7 +87,7 @@ function uploadFiles(/** File[] */ files, /** int */ currentIndex)
         fileName = files[currentIndex].name;
 
         for (const i of data) {
-            binaryString += toHex(i);
+            binaryString += fromBinaryToHex(i);
         }
 
         for (const i of fileName) {
@@ -193,13 +216,13 @@ function createFolder(/** String */ folderName)
         {
             url: "createFolder",
             dataType: "text",
-            headers: { "Folder-Name": folderName },
+            headers: { "Folder-Name": fromStringToHex(folderName) },
             success: function (data)
             {
                 console.log(data);
             }
         }
-    )
+    );
 }
 
 function logOut()

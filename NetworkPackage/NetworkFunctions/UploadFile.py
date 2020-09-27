@@ -10,15 +10,6 @@ from NetworkPackage.Constants import RequestType
 from NetworkPackage.Constants import FilesRequests
 
 
-def from_hex(data: str):
-    result = []
-
-    for i in range(0, len(data), 2):
-        result.append(bytes.fromhex(data[i:i + 2]))
-
-    return b''.join(result)
-
-
 def upload_file(login: str, password: str, file_name: str, file_data: bytes, path: str):
     with Network(APIServerIp, APIServerPort) as network:
         is_path_set = set_path(login, password, path, network)

@@ -18,6 +18,8 @@ import NetworkPackage.NetworkFunctions.PrevFolder as PrevFolder
 import NetworkPackage.NetworkFunctions.DownloadFile as DownloadFile
 import NetworkPackage.NetworkFunctions.CreateFolder as CreateFolder
 
+import Conversions.HexConversions as HexConversions
+
 
 def index(request: HttpRequest):
     if "login" not in request.session and "password" not in request.session:
@@ -29,7 +31,7 @@ def index(request: HttpRequest):
 def upload_file(request: HttpRequest):
     if request.method == "POST":
         is_file_uploaded, error_message = UploadFile.upload_file(
-            request.session["login"], request.session["password"], request.headers["File-Name"], UploadFile.from_hex(request.body.decode("ASCII")), request.session["path"]
+            request.session["login"], request.session["password"], request.headers["File-Name"], HexConversions.from_hex_to_binary(request.body.decode("ASCII")), request.session["path"]
             )
 
         if is_file_uploaded:
@@ -111,7 +113,8 @@ def download_file(request: HttpRequest):
 
 def create_folder(request: HttpRequest):
     if request.method == "POST":
-        return HttpResponse(CreateFolder.create_folder(request.session["login"], request.session["password"], request.headers["Folder-Name"], request.session["path"]))
+        return HttpResponse(
+            CreateFolder.create_folder(request.session["login"], request.session["password"], HexConversions.from_hex_to_string(request.headers["Folder-Name"]), request.session["path"]))
 
     return redirect(index)
 
