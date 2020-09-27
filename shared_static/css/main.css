@@ -10,10 +10,10 @@ body { font-family: 'roboto', sans-serif; font-size: 3.6rem; background-color: #
 .sidebar__upload-file input { position: absolute; bottom: 0; left: 0; display: block; opacity: 0; width: 100%; height: 100%; z-index: -1; cursor: pointer; }
 .sidebar__upload-file label { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-align: center; -ms-flex-align: center; align-items: center; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; width: 100%; height: 100%; font-weight: lighter; text-align: center; font-size: 32px; color: #fff; cursor: pointer; }
 .sidebar__upload-file label img { padding-right: 8px; vertical-align: middle; }
-.sidebar__create-foler { display: block; }
-.sidebar__create-foler button { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; width: 330px; height: 60px; border: none; border-radius: 10px; font-weight: lighter; text-align: center; font-size: 32px; color: #fff; background-color: #77B5FF; }
+.sidebar__create-folder { display: block; }
+.sidebar__create-folder button { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; width: 330px; height: 60px; border: none; border-radius: 10px; font-weight: lighter; text-align: center; font-size: 32px; color: #fff; background-color: #77B5FF; }
 .sidebar__folder-img { padding-right: 8px; }
-.sidebar__upload-file:hover, .sidebar__create-foler button:hover { background-color: #5CA7FF; -webkit-transition: all 0.5s ease-out; transition: all 0.5s ease-out; }
+.sidebar__upload-file:hover, .sidebar__create-folder button:hover { background-color: #5CA7FF; -webkit-transition: all 0.5s ease-out; transition: all 0.5s ease-out; }
 .sidebar__drive { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-align: center; -ms-flex-align: center; align-items: center; font-weight: normal; color: #515050; cursor: pointer; }
 .sidebar__drive img { padding-right: 10px; }
 .sidebar__drive:hover { padding-left: 40px; padding-right: 40px; -webkit-box-shadow: -10px 0px 0px 0px #77B5FF; box-shadow: -10px 0px 0px 0px #77B5FF; -webkit-transition: all 0.5s ease-out; transition: all 0.5s ease-out; }

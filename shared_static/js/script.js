@@ -368,11 +368,7 @@ document.getElementById("all-files").addEventListener("drop", (event) =>
     event.stopPropagation();
     event.preventDefault();
 
-    // const files = event.dataTransfer.files;
-
     uploadFiles(event.dataTransfer.files, 0);
-
-    window.location.href = "/storage";
 });
 
 if (uploadButton) {
