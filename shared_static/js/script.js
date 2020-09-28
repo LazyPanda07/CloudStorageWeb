@@ -161,12 +161,12 @@ function nextFolder(/** String */ folderName)
 {
     return $.post(
         {
-            url: "/nextFolder",
-            headers: { "Folder-Name": folderName },
+            url: "nextFolder",
+            headers: { "Folder-Name": fromStringToHex(folderName) },
             dataType: "text",
             success: function (data)
             {
-                alert(data);
+                return data;
             }
         }
     );

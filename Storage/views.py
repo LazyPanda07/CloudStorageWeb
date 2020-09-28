@@ -91,7 +91,7 @@ def remove_file(request: HttpRequest):
 
 def next_folder(request: HttpRequest):
     if request.method == "POST":
-        request.session["path"] = str(NextFolder.next_folder(request.headers["Folder-Name"], Path(request.session["path"])))
+        request.session["path"] = str(NextFolder.next_folder(HexConversions.from_hex_to_string(request.headers["Folder-Name"]), Path(request.session["path"])))
 
         return HttpResponse(request.session["path"])
 
@@ -109,7 +109,7 @@ def prev_folder(request: HttpRequest):
 
 def download_file(request: HttpRequest):
     if request.method == "GET":
-        file_name = HexConversions.from_hex_to_string(request.session["File-Name"])
+        file_name = request.session["File-Name"]  # comes from set_file_name, that already decoded
         response = HttpResponse(
             DownloadFile.download_file(request.session["login"], request.session["password"], file_name, request.session["path"]),
             content_type="application/octet-stream"
@@ -137,7 +137,7 @@ def create_folder(request: HttpRequest):
 
 def set_file_name(request: HttpRequest):
     if request.method == "POST":
-        request.session["File-Name"] = request.headers["File-Name"]
+        request.session["File-Name"] = HexConversions.from_hex_to_string(request.headers["File-Name"])
         return HttpResponse(Responses.OK_RESPONSE.value)
 
     return redirect(index)
