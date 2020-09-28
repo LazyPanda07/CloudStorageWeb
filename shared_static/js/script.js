@@ -146,12 +146,12 @@ function removeFile(/** String */ fileName)
 {
     return $.post(
         {
-            url: "/removeFile",
-            headers: { "File-Name": fileName },
+            url: "removeFile",
+            headers: { "File-Name": fromStringToHex(fileName) },
             dataType: "text",
             success: function (data)
             {
-                alert(data);
+                return data;
             }
         }
     );

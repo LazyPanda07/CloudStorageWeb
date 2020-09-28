@@ -78,7 +78,10 @@ def get_files(request: HttpRequest):
 def remove_file(request: HttpRequest):
     if request.method == "POST":
         return HttpResponse(
-            RemoveFiles.remove_file(request.session["login"], request.session["password"], request.session["path"], request.headers["File-Name"])
+            RemoveFiles.remove_file(
+                request.session["login"], request.session["password"], request.session["path"],
+                HexConversions.from_hex_to_string(request.headers["File-Name"])
+                )
             )
 
     return redirect(index)
