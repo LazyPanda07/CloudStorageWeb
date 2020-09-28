@@ -54,6 +54,7 @@ body { font-family: 'roboto', sans-serif; font-size: 3.6rem; background-color: #
 .popup-file { display: none; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; padding-top: 50px; width: 400px; }
 .popup-file span { display: block; width: 100%; padding: 15px 30px; margin-bottom: 5px; border: 2px solid #0071F5; border-radius: 20px; text-align: center; color: #515050; font-size: 48px; background-color: #fff; }
 .popup-file span:hover { background-color: #0071F5; color: #fff; cursor: pointer; -webkit-transition: 0.2s ease-in; transition: 0.2s ease-in; }
+.popup-file input[type="text"] { display: block; width: 100%; padding: 15px 30px; margin-bottom: 5px; border: 2px solid #0071F5; border-radius: 20px; text-align: center; color: #515050; font-size: 36px; background-color: #fff; }
 
 .first-page { height: 100vh; background: url("../img/bg-cloud.svg"); background-size: 800px 800px; background-repeat: no-repeat; background-position: right 100px top 40px; }
 

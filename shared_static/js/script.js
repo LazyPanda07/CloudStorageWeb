@@ -249,7 +249,8 @@ var currentElementName;
 function showPopup(/** String */ elementName)
 {
     currentElementName = elementName;
-    popupItem.style.display = "flex";
+    itemPopupMenu.style.display = "flex";
+    document.getElementById("create-folder-popup-menu").style.display = "none";
 }
 
 function nextFolderWrapper(/** String */ folderName)
@@ -283,7 +284,7 @@ let listItem = document.querySelector('.listing__item'),
 
 listItem.addEventListener('click',
     function () {
-    popupItem.style.display = "flex";
+    itemPopupMenu.style.display = "flex";
     this.style.border = "2px solid #0071F5";
     this.style.borderRadius = "10px"
 });*/
@@ -294,10 +295,11 @@ let regBtnClose = document.querySelector('.reg-popup__close');
 let authBtnClose = document.querySelector('.auth-popup__close');
 let regPopup = document.querySelector('.reg-popup');
 let authPopup = document.querySelector('.auth-popup');
-let popupItem = document.querySelector('.popup-file');
 let downloadFileButton = document.querySelector('.popup-file__download');
 let removeFileButton = document.querySelector('.popup-file__delete');
 let uploadButton = document.getElementById("upload-file");
+let itemPopupMenu = document.getElementById("item-popup-menu");
+let createNewFolderButton = document.getElementById("create-new-folder");
 
 if (regBtn) {
     regBtn.addEventListener("click", function ()
@@ -336,7 +338,7 @@ if (uploadButton) {
 if (downloadFileButton) {
     downloadFileButton.addEventListener("click", function ()
     {
-        popupItem.style.display = "none";
+        itemPopupMenu.style.display = "none";
 
         downloadFile(currentElementName);
 
@@ -347,11 +349,24 @@ if (downloadFileButton) {
 if (removeFileButton) {
     removeFileButton.addEventListener("click", function ()
     {
-        popupItem.style.display = "none";
+        itemPopupMenu.style.display = "none";
 
         removeFile(currentElementName);
 
         window.location.href = "/storage";
+    })
+}
+
+if (createNewFolderButton) {
+    createNewFolderButton.addEventListener("click", function ()
+    {
+        let folderName = $("#folder-name").val();
+
+        if (folderName == "") {
+            return;
+        }
+
+        createFolder(folderName).then(() => window.location.href = "/storage");
     })
 }
 
@@ -392,9 +407,9 @@ $("#register").click(function ()
 
 $("#create-folder").click(function ()
 {
-    let folderName = prompt("Введите название новой папки");
+    itemPopupMenu.style.display = "none";
 
-    createFolder(folderName).then(() => window.location.href = "/storage");
+    document.getElementById("create-folder-popup-menu").style.display = "flex";
 });
 
 $("#previous-folder").click(function ()
