@@ -176,11 +176,11 @@ function prevFolder()
 {
     return $.post(
         {
-            url: "/prevFolder",
+            url: "prevFolder",
             dataType: "text",
             success: function (data)
             {
-                alert(data);
+                return data;
             }
         }
     );
@@ -252,10 +252,15 @@ function showPopup(/** String */ elementName)
     popupItem.style.display = "flex";
 }
 
+function nextFolderWrapper(/** String */ folderName)
+{
+    nextFolder(folderName).then(() => window.location.href = "/storage");
+}
+
 function createFolderElement(/** String */ folderName)
 {
     return String.raw
-        `<div class="listing__item" onclick="showPopup('${folderName}')">
+        `<div class="listing__item" onclick="showPopup('${folderName}')" ondblclick="nextFolderWrapper('${folderName}')">
             <img src="/static/img/icons/folder.svg" alt="">
             <span>${folderName}</span>
         </div>`;
@@ -331,22 +336,22 @@ if (uploadButton) {
 if (downloadFileButton) {
     downloadFileButton.addEventListener("click", function ()
     {
-        popupItem.style.display="none";
-        
+        popupItem.style.display = "none";
+
         downloadFile(currentElementName);
 
-        window.location.href="/storage";
+        window.location.href = "/storage";
     })
 }
 
 if (removeFileButton) {
     removeFileButton.addEventListener("click", function ()
     {
-        popupItem.style.display="none";
-        
+        popupItem.style.display = "none";
+
         removeFile(currentElementName);
 
-        window.location.href="/storage";
+        window.location.href = "/storage";
     })
 }
 
@@ -391,6 +396,11 @@ $("#create-folder").click(function ()
 
     createFolder(folderName).then(() => window.location.href = "/storage");
 });
+
+$("#previous-folder").click(function ()
+{
+    prevFolder().then(() => window.location.href = "/storage");
+})
 
 $(document).ready(function ()
 {
