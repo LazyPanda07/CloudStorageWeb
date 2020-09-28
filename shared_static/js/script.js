@@ -244,10 +244,18 @@ function takeFilesFromInput()
     uploadFiles(filesToUpload, 0);
 }
 
+var currentElementName;
+
+function showPopup(/** String */ elementName)
+{
+    currentElementName = elementName;
+    popupItem.style.display = "flex";
+}
+
 function createFolderElement(/** String */ folderName)
 {
     return String.raw
-        `<div class="listing__item">
+        `<div class="listing__item" onclick="showPopup('${folderName}')">
             <img src="/static/img/icons/folder.svg" alt="">
             <span>${folderName}</span>
         </div>`;
@@ -256,7 +264,7 @@ function createFolderElement(/** String */ folderName)
 function createFileElement(/** String */ fileName)
 {
     return String.raw
-        `<div class="listing__item">
+        `<div class="listing__item" onclick="showPopup('${fileName}')">
             <img src="/static/img/icons/file.svg" alt="">
             <span>${fileName}</span>
         </div>`;
@@ -264,7 +272,7 @@ function createFileElement(/** String */ fileName)
 
 /*
 let listItem = document.querySelector('.listing__item'),
-    popupItem = document.querySelector('.popup-file'),
+    
     contentArea = document.getElementById('content-area')
 
 
@@ -281,6 +289,9 @@ let regBtnClose = document.querySelector('.reg-popup__close');
 let authBtnClose = document.querySelector('.auth-popup__close');
 let regPopup = document.querySelector('.reg-popup');
 let authPopup = document.querySelector('.auth-popup');
+let popupItem = document.querySelector('.popup-file');
+let downloadFileButton = document.querySelector('.popup-file__download');
+let removeFileButton = document.querySelector('.popup-file__delete');
 let uploadButton = document.getElementById("upload-file");
 
 if (regBtn) {
@@ -311,6 +322,32 @@ if (authBtnClose) {
     {
         authPopup.style.display = "none";
     });
+}
+
+if (uploadButton) {
+    uploadButton.addEventListener("change", takeFilesFromInput, false);
+}
+
+if (downloadFileButton) {
+    downloadFileButton.addEventListener("click", function ()
+    {
+        popupItem.style.display="none";
+        
+        downloadFile(currentElementName);
+
+        window.location.href="/storage";
+    })
+}
+
+if (removeFileButton) {
+    removeFileButton.addEventListener("click", function ()
+    {
+        popupItem.style.display="none";
+        
+        removeFile(currentElementName);
+
+        window.location.href="/storage";
+    })
 }
 
 $("#log-in").click(function ()
@@ -394,7 +431,3 @@ document.getElementById("all-files").addEventListener("drop", (event) =>
 
     uploadFiles(event.dataTransfer.files, 0);
 });
-
-if (uploadButton) {
-    uploadButton.addEventListener("change", takeFilesFromInput, false);
-}
