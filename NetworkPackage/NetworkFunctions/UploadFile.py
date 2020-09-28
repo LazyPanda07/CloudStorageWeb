@@ -38,7 +38,7 @@ def upload_file(login: str, password: str, file_name: str, file_data: bytes, pat
 
                 message = HTTPBuilder.insert_size_header_to_http_message(message)
 
-                network.send(message.encode("LATIN"))
+                network.send(message.encode("CP1251"))
 
                 offset += len(data)
 

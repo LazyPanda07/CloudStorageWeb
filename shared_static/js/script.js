@@ -84,19 +84,13 @@ function uploadFiles(/** File[] */ files, /** int */ currentIndex)
     {
         let data = new Uint8Array(event.target.result);
         let binaryString = "";
-        fileName = files[currentIndex].name;
+        fileName = fromStringToHex(files[currentIndex].name);
 
         for (const i of data) {
             binaryString += fromBinaryToHex(i);
         }
 
-        for (const i of fileName) {
-            if (i.charCodeAt(0) > 255) {
-                alert("Невозможно отправить файл с таким названием");
-                uploadFiles(files, currentIndex + 1);
-                return;
-            }
-        }
+        console.log(fileName);
 
         $.post(
             {

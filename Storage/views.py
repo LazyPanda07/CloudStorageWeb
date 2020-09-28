@@ -31,7 +31,10 @@ def index(request: HttpRequest):
 def upload_file(request: HttpRequest):
     if request.method == "POST":
         is_file_uploaded, error_message = UploadFile.upload_file(
-            request.session["login"], request.session["password"], request.headers["File-Name"], HexConversions.from_hex_to_binary(request.body.decode("ASCII")), request.session["path"]
+            request.session["login"], request.session["password"],
+            HexConversions.from_hex_to_string(request.headers["File-Name"]),
+            HexConversions.from_hex_to_binary(request.body.decode("ASCII")),
+            request.session["path"]
             )
 
         if is_file_uploaded:
@@ -74,7 +77,9 @@ def get_files(request: HttpRequest):
 
 def remove_file(request: HttpRequest):
     if request.method == "POST":
-        return HttpResponse(RemoveFiles.remove_file(request.session["login"], request.session["password"], request.session["path"], request.headers["File-Name"]))
+        return HttpResponse(
+            RemoveFiles.remove_file(request.session["login"], request.session["password"], request.session["path"], request.headers["File-Name"])
+            )
 
     return redirect(index)
 
@@ -114,7 +119,12 @@ def download_file(request: HttpRequest):
 def create_folder(request: HttpRequest):
     if request.method == "POST":
         return HttpResponse(
-            CreateFolder.create_folder(request.session["login"], request.session["password"], HexConversions.from_hex_to_string(request.headers["Folder-Name"]), request.session["path"]))
+            CreateFolder.create_folder(
+                request.session["login"], request.session["password"],
+                HexConversions.from_hex_to_string(request.headers["Folder-Name"]),
+                request.session["path"]
+                )
+            )
 
     return redirect(index)
 
