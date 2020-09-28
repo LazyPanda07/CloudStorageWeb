@@ -28,7 +28,7 @@ def download_file(login: str, password: str, file_name: str, path: str):
 
                 request = HTTPBuilder.insert_size_header_to_http_message(request)
 
-                network.send(request.encode("CP1251"))
+                network.send(request)
 
                 response = HTTPParser(network.receive())
 

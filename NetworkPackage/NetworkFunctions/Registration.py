@@ -15,11 +15,11 @@ def registration(login: str, password: str):
         request = HTTPBuilder().set_method("POST"). \
             set_header(RequestType.ACCOUNT_TYPE, AccountRequests.REGISTRATION). \
             set_header("Content-Length", str(len(body))). \
-            build(body.encode("ASCII"))
+            build(body.encode("CP1251"))
 
         request = HTTPBuilder.insert_size_header_to_http_message(request)
 
-        network.send(request.encode("ASCII"))
+        network.send(request)
 
         response = HTTPParser(network.receive())
 

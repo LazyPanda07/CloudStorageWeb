@@ -21,7 +21,7 @@ def remove_file(login: str, password: str, path: str, file_name: str):
 
             request = HTTPBuilder.insert_size_header_to_http_message(request)
 
-            network.send(request.encode("CP1251"))
+            network.send(request)
 
             response = HTTPParser(network.receive())
 

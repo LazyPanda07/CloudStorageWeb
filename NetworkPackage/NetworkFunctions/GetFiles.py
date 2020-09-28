@@ -25,7 +25,7 @@ def get_files(login: str, password: str, path: str):
 
             request = HTTPBuilder.insert_size_header_to_http_message(request)
 
-            network.send(request.encode("ASCII"))
+            network.send(request)
 
             response = HTTPParser(network.receive())
 

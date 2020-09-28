@@ -60,7 +60,7 @@ class Network:
 
         self._socket.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, pack("ii", 1, 0))
 
-        self._socket.send(end_of_socket_stream.encode("ASCII"))
+        self._socket.send(end_of_socket_stream)
 
         self._socket.close()
 

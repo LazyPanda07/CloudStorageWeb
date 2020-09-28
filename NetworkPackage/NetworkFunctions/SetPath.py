@@ -27,7 +27,7 @@ def set_path(login: str, password: str, path: str, network: Network = None):
 
         request = HTTPBuilder.insert_size_header_to_http_message(request)
 
-        network.send(request.encode("CP1251"))
+        network.send(request)
 
         response = HTTPParser(network.receive())
 

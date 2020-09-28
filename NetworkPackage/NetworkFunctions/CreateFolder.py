@@ -25,7 +25,7 @@ def create_folder(login: str, password: str, folder_name: str, path: str):
 
             request = HTTPBuilder.insert_size_header_to_http_message(request)
 
-            network.send(request.encode("CP1251"))
+            network.send(request)
 
             response = HTTPParser(network.receive())
 
