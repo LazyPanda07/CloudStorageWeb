@@ -9,6 +9,8 @@ from NetworkPackage.Constants import Responses
 from NetworkPackage.Constants import DATA_DELIMITER
 from NetworkPackage.Constants import DATA_PART_DELIMITER
 
+from transliterate import translit
+
 import NetworkPackage.NetworkFunctions.UploadFile as UploadFile
 import NetworkPackage.NetworkFunctions.SetPath as SetPath
 import NetworkPackage.NetworkFunctions.GetFiles as GetFiles
@@ -107,12 +109,13 @@ def prev_folder(request: HttpRequest):
 
 def download_file(request: HttpRequest):
     if request.method == "GET":
+        file_name = HexConversions.from_hex_to_string(request.session["File-Name"])
         response = HttpResponse(
-            DownloadFile.download_file(request.session["login"], request.session["password"], request.session["File-Name"], request.session["path"]),
+            DownloadFile.download_file(request.session["login"], request.session["password"], file_name, request.session["path"]),
             content_type="application/octet-stream"
             )
 
-        response["Content-Disposition"] = "inline; filename=" + request.session["File-Name"]
+        response["Content-Disposition"] = "inline; filename=" + translit(file_name, "uk", reversed=True)
 
         return response
 

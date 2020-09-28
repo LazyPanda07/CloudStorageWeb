@@ -190,9 +190,9 @@ function downloadFile(/** String */ fileName)
 {
     $.post(
         {
-            url: "/setFileName",
+            url: "setFileName",
             dataType: "text",
-            headers: { "File-Name": fileName },
+            headers: { "File-Name": fromStringToHex(fileName) },
             success: function (data)
             {
                 console.log(data);
@@ -200,7 +200,7 @@ function downloadFile(/** String */ fileName)
         }
     ).then(() =>
     {
-        window.location = "/downloadFile";
+        window.location = "downloadFile";
     });
 }
 
