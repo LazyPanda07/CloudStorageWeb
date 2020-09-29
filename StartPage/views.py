@@ -26,7 +26,7 @@ def index(request: HttpRequest):
             if "path" in request.session:
                 del request.session["path"]
 
-    return render(request, "index.html")
+    return render(request, "StartPage/index.html")
 
 
 def authorization(request: HttpRequest):

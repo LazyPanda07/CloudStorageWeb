@@ -27,7 +27,7 @@ def index(request: HttpRequest):
     if "login" not in request.session and "password" not in request.session:
         return redirect("..")
 
-    return render(request, "storage.html")
+    return render(request, "Storage/index.html")
 
 
 def upload_file(request: HttpRequest):
