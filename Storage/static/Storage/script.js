@@ -39,36 +39,6 @@ function fromStringToHex(/** String */ string)
     return result;
 }
 
-function authorization(/** string */ login, /** string */ password)
-{
-    return $.post(
-        {
-            url: "/authorization",
-            dataType: "text",
-            data: "login=" + login + "&password=" + password,
-            success: function (data)
-            {
-                return data;
-            }
-        }
-    );
-}
-
-function registration(/** string */ login, /** string */ password)
-{
-    return $.post(
-        {
-            url: "/registration",
-            dataType: "text",
-            data: "login=" + login + "&password=" + password,
-            success: function (data)
-            {
-                return data;
-            }
-        }
-    );
-}
-
 var filesToUpload;
 
 function uploadFiles(/** File[] */ files, /** int */ currentIndex)
@@ -276,134 +246,43 @@ function createFileElement(/** String */ fileName)
         </div>`;
 }
 
-/*
-let listItem = document.querySelector('.listing__item'),
-    
-    contentArea = document.getElementById('content-area')
-
-
-listItem.addEventListener('click',
-    function () {
-    itemPopupMenu.style.display = "flex";
-    this.style.border = "2px solid #0071F5";
-    this.style.borderRadius = "10px"
-});*/
-
-let regBtn = document.querySelector('.header__reg-btn');
-let authBtn = document.querySelector('.body__auth-btn');
-let regBtnClose = document.querySelector('.reg-popup__close');
-let authBtnClose = document.querySelector('.auth-popup__close');
-let regPopup = document.querySelector('.reg-popup');
-let authPopup = document.querySelector('.auth-popup');
 let downloadFileButton = document.querySelector('.popup-file__download');
 let removeFileButton = document.querySelector('.popup-file__delete');
 let uploadButton = document.getElementById("upload-file");
 let itemPopupMenu = document.getElementById("item-popup-menu");
 let createNewFolderButton = document.getElementById("create-new-folder");
 
-if (regBtn) {
-    regBtn.addEventListener("click", function ()
-    {
-        regPopup.style.display = "block";
-        authPopup.style.display = "none";
-    });
-}
 
-if (regBtnClose) {
-    regBtnClose.addEventListener("click", function ()
-    {
-        regPopup.style.display = "none";
-    });
-}
+uploadButton.addEventListener("change", takeFilesFromInput, false);
 
-if (authBtn) {
-    authBtn.addEventListener("click", function ()
-    {
-        authPopup.style.display = "block";
-        regPopup.style.display = "none";
-    });
-}
-
-if (authBtnClose) {
-    authBtnClose.addEventListener("click", function ()
-    {
-        authPopup.style.display = "none";
-    });
-}
-
-if (uploadButton) {
-    uploadButton.addEventListener("change", takeFilesFromInput, false);
-}
-
-if (downloadFileButton) {
-    downloadFileButton.addEventListener("click", function ()
-    {
-        itemPopupMenu.style.display = "none";
-
-        downloadFile(currentElementName);
-
-        window.location.href = "/storage";
-    })
-}
-
-if (removeFileButton) {
-    removeFileButton.addEventListener("click", function ()
-    {
-        itemPopupMenu.style.display = "none";
-
-        removeFile(currentElementName);
-
-        window.location.href = "/storage";
-    })
-}
-
-if (createNewFolderButton) {
-    createNewFolderButton.addEventListener("click", function ()
-    {
-        let folderName = $("#folder-name").val();
-
-        if (folderName == "") {
-            return;
-        }
-
-        createFolder(folderName).then(() => window.location.href = "/storage");
-    })
-}
-
-$("#log-in").click(function ()
+downloadFileButton.addEventListener("click", function ()
 {
-    authorization($("#authorization-login").val(), $("#authorization-password").val()).then(function (data)
-    {
-        if (data == "OK") {
-            authPopup.style.display = "none";
+    itemPopupMenu.style.display = "none";
 
-            window.location.href = "/storage";
-        }
-        else {
-            alert(data);
-        }
-    });
-});
+    downloadFile(currentElementName);
 
-$("#register").click(function ()
+    window.location.href = "/storage";
+})
+
+removeFileButton.addEventListener("click", function ()
 {
-    let password = $("#registration-password").val();
-    let repeatPassword = $("#registration-repeat-password").val();
+    itemPopupMenu.style.display = "none";
 
-    if (password == repeatPassword) {
-        registration($("#registration-login").val(), password).then(function (data)
-        {
-            if (data == "OK") {
-                alert("Регистрация прошла успешно");
+    removeFile(currentElementName);
 
-                regPopup.style.display = "none";
-            }
-            else {
-                alert(data);
-            }
-        });
+    window.location.href = "/storage";
+})
+
+createNewFolderButton.addEventListener("click", function ()
+{
+    let folderName = $("#folder-name").val();
+
+    if (folderName == "") {
+        return;
     }
-});
+
+    createFolder(folderName).then(() => window.location.href = "/storage");
+})
 
 $("#create-folder").click(function ()
 {
