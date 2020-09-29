@@ -5,7 +5,35 @@ $.ajaxSetup({
     }
 });
 
-function fromBinaryToHex(/** uint8 */ byte)
+$(document).ready(function ()
+{
+    getFiles().then(function (data)
+    {
+        if (data == "Эта папка пуста") {
+            return;
+        }
+
+        let allFiles = $("#all-files");
+        let fileNames = data.split('/');
+
+        for (const i of fileNames) {
+            tem = i.split('|');
+
+            if (tem[1] == "Папка с файлами") {
+                allFiles.append(createFolderElement(tem[0]));
+            }
+            else {
+                allFiles.append(createFileElement(tem[0]));
+            }
+        }
+    });
+});
+
+/**
+ * 
+ * @param {type} byte uint8
+ */
+function fromBinaryToHex(byte)
 {
     result = byte.toString(16)
 
@@ -16,7 +44,11 @@ function fromBinaryToHex(/** uint8 */ byte)
     return result;
 }
 
-function fromStringToHex(/** String */ string)
+/**
+ * 
+ * @param {type} string String
+ */
+function fromStringToHex(string)
 {
     let result = new String();
 
@@ -41,7 +73,12 @@ function fromStringToHex(/** String */ string)
 
 var filesToUpload;
 
-function uploadFiles(/** File[] */ files, /** int */ currentIndex)
+/**
+ * 
+ * @param {type} files File[]
+ * @param {type} currentIndex int
+ */
+function uploadFiles(files, currentIndex)
 {
     if (files.length == currentIndex) {
         window.location.href = "/storage";
@@ -112,7 +149,11 @@ function getFiles()
     );
 }
 
-function removeFile(/** String */ fileName)
+/**
+ * 
+ * @param {type} fileName String
+ */
+function removeFile(fileName)
 {
     return $.post(
         {
@@ -127,7 +168,11 @@ function removeFile(/** String */ fileName)
     );
 }
 
-function nextFolder(/** String */ folderName)
+/**
+ * 
+ * @param {type} folderName String
+ */
+function nextFolder(folderName)
 {
     return $.post(
         {
@@ -156,7 +201,11 @@ function prevFolder()
     );
 }
 
-function downloadFile(/** String */ fileName)
+/**
+ * 
+ * @param {type} fileName String
+ */
+function downloadFile(fileName)
 {
     $.post(
         {
@@ -174,7 +223,11 @@ function downloadFile(/** String */ fileName)
     });
 }
 
-function createFolder(/** String */ folderName)
+/**
+ * 
+ * @param {type} folderName String
+ */
+function createFolder(folderName)
 {
     return $.post(
         {
@@ -216,19 +269,31 @@ function takeFilesFromInput()
 
 var currentElementName;
 
-function showPopup(/** String */ elementName)
+/**
+ * 
+ * @param {type} elementName String
+ */
+function showPopup(elementName)
 {
     currentElementName = elementName;
     itemPopupMenu.style.display = "flex";
     document.getElementById("create-folder-popup-menu").style.display = "none";
 }
 
-function nextFolderWrapper(/** String */ folderName)
+/**
+ * 
+ * @param {type} folderName String
+ */
+function nextFolderWrapper(folderName)
 {
     nextFolder(folderName).then(() => window.location.href = "/storage");
 }
 
-function createFolderElement(/** String */ folderName)
+/**
+ * 
+ * @param {type} folderName String
+ */
+function createFolderElement(folderName)
 {
     return String.raw
         `<div class="listing__item" onclick="showPopup('${folderName}')" ondblclick="nextFolderWrapper('${folderName}')">
@@ -237,7 +302,11 @@ function createFolderElement(/** String */ folderName)
         </div>`;
 }
 
-function createFileElement(/** String */ fileName)
+/**
+ * 
+ * @param {type} fileName String
+ */
+function createFileElement(fileName)
 {
     return String.raw
         `<div class="listing__item" onclick="showPopup('${fileName}')">
@@ -248,12 +317,11 @@ function createFileElement(/** String */ fileName)
 
 let downloadFileButton = document.querySelector('.popup-file__download');
 let removeFileButton = document.querySelector('.popup-file__delete');
-let uploadButton = document.getElementById("upload-file");
 let itemPopupMenu = document.getElementById("item-popup-menu");
 let createNewFolderButton = document.getElementById("create-new-folder");
+let uploadButton = $("#upload-file");
 
-
-uploadButton.addEventListener("change", takeFilesFromInput, false);
+uploadButton.change(takeFilesFromInput);
 
 downloadFileButton.addEventListener("click", function ()
 {
@@ -295,30 +363,6 @@ $("#previous-folder").click(function ()
 {
     prevFolder().then(() => window.location.href = "/storage");
 })
-
-$(document).ready(function ()
-{
-    getFiles().then(function (data)
-    {
-        if (data == "Эта папка пуста") {
-            return;
-        }
-
-        let allFiles = $("#all-files");
-        let fileNames = data.split('/');
-
-        for (const i of fileNames) {
-            tem = i.split('|');
-
-            if (tem[1] == "Папка с файлами") {
-                allFiles.append(createFolderElement(tem[0]));
-            }
-            else {
-                allFiles.append(createFileElement(tem[0]));
-            }
-        }
-    });
-});
 
 document.getElementById("all-files").addEventListener("dragover", (event) =>
 {
