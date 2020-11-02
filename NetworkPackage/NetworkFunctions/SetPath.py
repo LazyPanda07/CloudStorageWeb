@@ -7,6 +7,7 @@ from NetworkPackage.Constants import APIServerIp
 from NetworkPackage.Constants import APIServerPort
 from NetworkPackage.Constants import RequestType
 from NetworkPackage.Constants import ControlRequests
+from NetworkPackage.Constants import Responses
 
 
 def set_path(login: str, password: str, path: str, network: Network = None):
@@ -29,7 +30,8 @@ def set_path(login: str, password: str, path: str, network: Network = None):
 
         network.send(request)
 
-        response = HTTPParser(network.receive())
+        response = Responses.OK_RESPONSE.value if HTTPParser(
+            network.receive()).get_body() == Responses.OK_RESPONSE.value else None
 
     if is_network_not_passed:
         network.close()
