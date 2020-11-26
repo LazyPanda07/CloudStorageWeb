@@ -295,6 +295,10 @@ function nextFolderWrapper(folderName)
  */
 function createFolderElement(folderName)
 {
+    if (folderName == "FAIL") {
+        return;
+    }
+
     return String.raw
         `<div class="listing__item" onclick="showPopup('${folderName}')" ondblclick="nextFolderWrapper('${folderName}')">
             <img src="/static/img/icons/folder.svg" alt="">
@@ -308,6 +312,10 @@ function createFolderElement(folderName)
  */
 function createFileElement(fileName)
 {
+    if (fileName == "FAIL") {
+        return;
+    }
+
     return String.raw
         `<div class="listing__item" onclick="showPopup('${fileName}')">
             <img src="/static/img/icons/file.svg" alt="">

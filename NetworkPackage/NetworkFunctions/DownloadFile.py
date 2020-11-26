@@ -9,6 +9,7 @@ from NetworkPackage.Constants import DATA_PART_DELIMITER
 from NetworkPackage.Constants import DATA_DELIMITER
 from NetworkPackage.Constants import RequestType
 from NetworkPackage.Constants import FilesRequests
+from NetworkPackage.Constants import Responses
 
 
 def download_file(login: str, password: str, file_name: str, path: str):
@@ -18,7 +19,7 @@ def download_file(login: str, password: str, file_name: str, path: str):
         data = []
         offset = 0
 
-        if is_path_set is not None and is_path_set.get_body() == b"OK":
+        if is_path_set is not None and is_path_set == Responses.OK_RESPONSE.value:
             while True:
                 request = HTTPBuilder().set_method("POST"). \
                     set_header(RequestType.FILES_TYPE, FilesRequests.DOWNLOAD_FILE). \

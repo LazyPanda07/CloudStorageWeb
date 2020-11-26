@@ -31,7 +31,7 @@ def set_path(login: str, password: str, path: str, network: Network = None):
         network.send(request)
 
         response = Responses.OK_RESPONSE.value if HTTPParser(
-            network.receive()).get_body() == Responses.OK_RESPONSE.value else None
+            network.receive()).get_body().decode() == Responses.OK_RESPONSE.value else None
 
     if is_network_not_passed:
         network.close()

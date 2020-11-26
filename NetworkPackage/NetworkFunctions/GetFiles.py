@@ -9,6 +9,7 @@ from NetworkPackage.Constants import DATA_PART_DELIMITER
 from NetworkPackage.Constants import DATA_DELIMITER
 from NetworkPackage.Constants import RequestType
 from NetworkPackage.Constants import FilesRequests
+from NetworkPackage.Constants import Responses
 
 from FileData.FileData import FileData
 
@@ -18,7 +19,7 @@ def get_files(login: str, password: str, path: str):
         data = None
         is_path_set = set_path(login, password, path, network)
 
-        if is_path_set is not None and is_path_set.get_body() == b"OK":
+        if is_path_set is not None and is_path_set == Responses.OK_RESPONSE.value:
             request = HTTPBuilder().set_method("POST"). \
                 set_header(RequestType.FILES_TYPE, FilesRequests.SHOW_ALL_FILES_IN_DIRECTORY). \
                 build()

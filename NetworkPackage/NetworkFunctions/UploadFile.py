@@ -8,13 +8,14 @@ from NetworkPackage.Constants import APIServerPort
 from NetworkPackage.Constants import FILE_PACKET_SIZE
 from NetworkPackage.Constants import RequestType
 from NetworkPackage.Constants import FilesRequests
+from NetworkPackage.Constants import Responses
 
 
 def upload_file(login: str, password: str, file_name: str, file_data: bytes, path: str):
     with Network(APIServerIp, APIServerPort) as network:
         is_path_set = set_path(login, password, path, network)
 
-        if is_path_set is not None and is_path_set.get_body() == b"OK":
+        if is_path_set is not None and is_path_set == Responses.OK_RESPONSE.value:
             offset = 0
             file_data_size = len(file_data)
             data = bytes()

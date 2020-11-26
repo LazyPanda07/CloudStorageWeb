@@ -16,7 +16,8 @@ class HTTPBuilder:
 
     @staticmethod
     def insert_size_header_to_http_message(http_message: bytes):
-        total_http_message_size = HTTPBuilder._custom_http_header_size.encode("CP1251") + HTTPBuilder._calculate_http_message_size(http_message).encode("CP1251") + b"\r\n"
+        total_http_message_size = HTTPBuilder._custom_http_header_size.encode(
+            "CP1251") + HTTPBuilder._calculate_http_message_size(http_message).encode("CP1251") + b"\r\n"
         find_rn = http_message.find(b"\r\n")
 
         return http_message[:find_rn + 2] + total_http_message_size + http_message[find_rn + 2:]
@@ -59,14 +60,18 @@ class HTTPBuilder:
 
     def build(self, body=bytes()):
         if len(self._method) == 0:
-            result = self._http_version.encode("CP1251") + b" " + self._responseCode.encode("CP1251") + b"\r\n" + self._headers.encode("CP1251")
+            result = self._http_version.encode("CP1251") + b" " + self._responseCode.encode(
+                "CP1251") + b"\r\n" + self._headers.encode("CP1251")
         else:
             if len(self._parameters) == 0:
                 self._parameters = "/"
 
-            result = self._method.encode("CP1251") + b" " + self._parameters.encode("CP1251") + b" " + self._http_version.encode("CP1251") + b"\r\n" + self._headers.encode("CP1251")
+            result = self._method.encode("CP1251") + b" " + self._parameters.encode(
+                "CP1251") + b" " + self._http_version.encode("CP1251") + b"\r\n" + self._headers.encode("CP1251")
+
+        result = result + b"\r\n"
 
         if len(body) != 0:
-            result = result + b"\r\n" + body
+            result = result + body
 
         return result
