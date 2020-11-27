@@ -31,6 +31,22 @@ $(document).ready(function ()
 
 /**
  * 
+ * @param {type} progressBarPercentWidth float
+ * @param {type} fileName String
+ */
+function uploadFileNotify(progressBarPercentWidth, fileName)
+{
+    let progressBar = document.getElementById("progressBar");
+    let fileInformation = document.getElementById("fileInformation");
+
+    fileInformation.innerHTML = "Загрузка файла " + fileName;
+
+    progressBar.style.width = progressBarPercentWidth + "%";
+    progressBar.innerHTML = progressBarPercentWidth + "%";
+}
+
+/**
+ * 
  * @param {type} byte uint8
  */
 function fromBinaryToHex(byte)
