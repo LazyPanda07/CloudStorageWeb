@@ -5,7 +5,6 @@ from NetworkPackage.Constants import RequestType
 from NetworkPackage.Constants import NetworkRequests
 from NetworkPackage.HTTPParser import HTTPParser
 from NetworkPackage.HTTPBuilder import HTTPBuilder
-from struct import pack
 
 
 class Network:
@@ -58,9 +57,9 @@ class Network:
             set_header(RequestType.EXIT_TYPE, NetworkRequests.EXIT). \
             build()
 
-        self._socket.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, pack("ii", 1, 0))
+        end_of_socket_stream = HTTPBuilder.insert_size_header_to_http_message(end_of_socket_stream)
 
-        check = self._socket.send(end_of_socket_stream)
+        self.send(end_of_socket_stream)
 
         self._socket.close()
 
