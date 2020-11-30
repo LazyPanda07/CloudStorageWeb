@@ -289,6 +289,9 @@ function downloadFile(fileName)
     ).then(() =>
     {
         window.location = "downloadFile";
+    }).catch((err) =>
+    {
+        alert(err);
     });
 }
 
