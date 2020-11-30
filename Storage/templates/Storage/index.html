@@ -26,7 +26,7 @@
 		}
 
 		#progressBar {
-			width: 50%;
+			width: 10%;
 			height: 30px;
 			background-color: #77B5FF;
 			line-height: 30px;
@@ -109,15 +109,16 @@
 				</div>
 			</div>
 			<div class="main__content" id="content-area">
+				<div id="progressWrapper" hidden>
+					<div id="fileInformation"></div>
+					<div id="progressBar"></div>
+				</div>
+				
 				<div class="listing__title">
 					<p>Файлы</p>
 				</div>
 
 				<div id="all-files" class="listing__file"></div>
-
-				<div id="progressWrapper">
-					<div id="progressBar">10%</div>
-				</div>
 
 			</div>
 		</section>

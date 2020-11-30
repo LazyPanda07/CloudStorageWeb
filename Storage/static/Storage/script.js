@@ -1,3 +1,5 @@
+const fileSizeLimit = 16 * 1024 * 1024
+
 $.ajaxSetup({
     beforeSend: function (xhr, settings)
     {
@@ -43,6 +45,23 @@ function uploadFileNotify(progressBarPercentWidth, fileName)
 
     progressBar.style.width = progressBarPercentWidth + "%";
     progressBar.innerHTML = progressBarPercentWidth + "%";
+
+    showProgressBar();
+}
+
+function showProgressBar()
+{
+    document.getElementById("progressWrapper").hidden = false;
+}
+
+function hideProgressBar()
+{
+    let progressBar = document.getElementById("progressBar");
+
+    progressBar.style.width = 0 + "%";
+    progressBar.innerHTML = 0 + "%";
+
+    document.getElementById("progressWrapper").hidden = true;
 }
 
 /**
@@ -107,13 +126,38 @@ function uploadFiles(files, currentIndex)
     {
         let data = new Uint8Array(event.target.result);
         let binaryString = "";
-        fileName = fromStringToHex(files[currentIndex].name);
+        let fileName = fromStringToHex(files[currentIndex].name);
+        let progressBarWidth = 10;
 
-        for (const i of data) {
-            binaryString += fromBinaryToHex(i);
+        if (data.length >= fileSizeLimit) {
+            alert("Размер файла " + files[currentIndex].name + " превышает допустимый лимит (" + fileSizeLimit + ")");
+
+            return;
         }
 
-        console.log(fileName);
+        for (let i = 0; i < data.length; i++) {
+            let tem = fromBinaryToHex(data[i]);
+
+            binaryString += tem;
+
+            tem = null;
+        }        
+
+        let fillProgressBar = setInterval(
+            () =>
+            {
+                if (progressBarWidth == 90) {
+                    clearInterval(fillProgressBar);
+
+                    return;
+                }
+
+                progressBarWidth += 10;
+
+                uploadFileNotify(progressBarWidth, files[currentIndex].name);
+            },
+            150,
+        );
 
         $.post(
             {
@@ -127,7 +171,16 @@ function uploadFiles(files, currentIndex)
             }
         ).then((result) =>
         {
-            uploadFiles(files, currentIndex + 1);
+            clearInterval(fillProgressBar);
+
+            uploadFileNotify(100, files[currentIndex].name);
+
+            setTimeout(() =>
+            {
+                hideProgressBar();
+
+                uploadFiles(files, currentIndex + 1);
+            }, 1000);
         }).catch((err) =>
         {
             console.log(err);
