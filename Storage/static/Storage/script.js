@@ -141,7 +141,7 @@ function uploadFiles(files, currentIndex)
             binaryString += tem;
 
             tem = null;
-        }        
+        }
 
         let fillProgressBar = setInterval(
             () =>
@@ -169,7 +169,7 @@ function uploadFiles(files, currentIndex)
                     return data;
                 }
             }
-        ).then((result) =>
+        ).done((result) =>
         {
             clearInterval(fillProgressBar);
 
@@ -284,14 +284,12 @@ function downloadFile(fileName)
             success: function (data)
             {
                 console.log(data);
-            }
+            },
+            async: false
         }
     ).then(() =>
     {
         window.location = "downloadFile";
-    }).catch((err) =>
-    {
-        alert(err);
     });
 }
 
